@@ -36,7 +36,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
               </Bleed>
             </div>
             <div className="relative pt-10">
-              <PageTitle>{title}</PageTitle>
+              <PageTitle viewTransitionName={title}>{title}</PageTitle>
             </div>
           </div>
           <div className="prose max-w-none py-4 dark:prose-invert">{children}</div>

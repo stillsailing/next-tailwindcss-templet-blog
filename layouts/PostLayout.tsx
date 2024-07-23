@@ -51,7 +51,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 </div>
               </dl>
               <div>
-                <PageTitle>{title}</PageTitle>
+                <PageTitle viewTransitionName={title}>{title}</PageTitle>
               </div>
             </div>
           </header>

@@ -35,7 +35,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                 </div>
               </dl>
               <div>
-                <PageTitle>{title}</PageTitle>
+                <PageTitle viewTransitionName={title}>{title}</PageTitle>
               </div>
             </div>
           </header>
