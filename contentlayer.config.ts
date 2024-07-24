@@ -109,6 +109,12 @@ export const Blog = defineDocumentType(() => ({
   },
   computedFields: {
     ...computedFields,
+    toc: {
+      type: 'list',
+      resolve: async (doc) => {
+        return await extractTocHeadings(doc.body.raw)
+      },
+    },
     structuredData: {
       type: 'json',
       resolve: (doc) => ({
