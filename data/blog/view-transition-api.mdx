@@ -1,0 +1,164 @@
+---
+title: 'View Transition API'
+date: '2024-07-30'
+tags: ['css', 'javascript']
+draft: false
+summary: 最新动画 View Transition API 的使用介绍与代码实践
+---
+
+## 共享元素动画
+
+最早由 Google 在其 Material Design 规范中引入并推广。在 Android 应用中被广泛使用，通过在页面或视图之间平滑地过渡共享的元素，起到过渡并引导的作用。通过合理利用共享元素动画，可以显著提升用户体验和界面的视觉连贯性。[在所有过渡效果中，共享元素动画被认为是最具有表现力的](https://m3.material.io/styles/motion/transitions/transition-patterns#16ba9505-e33a-47e6-862d-d341b9a361fd)
+
+<img src="/static/images/android-share-element.gif" />
+
+## 使用
+
+View Transitions API 提供了一种机制，可以在更新 DOM 内容的同时，轻松地创建不同 DOM 状态之间的动画过渡。其原理简单来说就是：
+
+1. 在 `startViewTransition` 调用时截取一帧
+2. 执行传入 `startViewTransition` 的回调，并等待界面响应更新
+3. DOM 更新后，再截取新元素
+4. 执行过渡，默认情况下旧帧淡出，新元素淡入
+
+`startViewTransition()` 返回了一组 promise 以提供了在过渡到达不同状态时运行代码的能力
+
+- `ready` 伪元素树被创建且过渡动画即将开始时
+- `finished` 动画完成，新的页面视图对用户可见且可交互
+- `updateCallbackDone` 传递给 `startViewTransition()` 的回调函数返回的 Promise 兑现时，该 Promise 也会兑现
+
+还提供了 `skipTransition()` 可以跳过视图过渡的动画部分，但不会跳过 callback 调用
+
+该 API 同时还有 CSS 扩展部分
+
+```
+::view-transition
+└─ ::view-transition-group(root)
+   └─ ::view-transition-image-pair(root)
+      ├─ ::view-transition-old(root) 👈 Screenshot
+      └─ ::view-transition-new(root) 👈 Live representation
+```
+
+可以使用伪元素给旧帧或者新元素增加动画
+
+```css
+::view-transition-old(root) {
+  animation: move-from-old .5s forwards; // 添加退场动画
+}
+::view-transition-new(root) {
+  animation: move-to-new 1s; // 添加登场动画
+}
+```
+
+## 跟 UI 框架集成
+
+跟 UI 框架集成的关键在于如何知道框架更新 dom 后的时机（不管是同步还是异步），才能在 `startViewTransition` 的回调结束前确保 dom 已经更新完成，然后浏览器才可以截取新帧进行过渡
+
+### React
+
+react 提供了 [`flushSync`](https://zh-hans.react.dev/reference/react-dom/flushSync) API，可以强制让 React 在提供的回调函数内同步刷新任何更新，确保 DOM 立即更新。
+
+在 `startViewTransition` 回调中应用 `flushSync` 将 setState 的异步更新强制成同步，浏览器就可以正确截取到 react 更新 dom 后的新帧，然后应用过渡
+
+```js
+export default function Count() {
+  const [count, setCount] = useState(0);
+  const plus = () => document.startViewTransition(() => {
+    flushSync(() => {
+      setCount(count + 1);
+    })
+  })
+  return (
+    <div>
+      <div className="count">{count}</div>
+      <button onClick={plus}>Plus</button>
+    </div>
+  );
+}
+```
+
+更好的做法是 [`useLayoutEffect`](https://zh-hans.react.dev/reference/react/useLayoutEffect)
+
+```js
+function useViewTransition(update: () => void) {
+  const resolveRef = useRef<() => void>();
+  useLayoutEffect(() => {
+    if (resolveRef.current) {
+      resolveRef.current();
+      resolveRef.current = undefined;
+    }
+  });
+  return function updateWithTransition() {
+    document.startViewTransition(() => {
+      return new Promise<void>((resolve) => {
+        update();
+        resolveRef.current = resolve;
+      });
+    });
+  };
+}
+
+// App.tsx
+const plus = useViewTransition(() => {
+  setCount((count) => count + 1);
+})
+```
+
+不过单组件内过渡可以使用 `useLayoutEffect`，但涉及 router 组件切换时就需要将 `useLayoutEffect` 的逻辑提升或者直接使用 `flushSync`
+
+react-router v6 推荐使用 [Data APIs](https://reactrouter.com/en/main/routers/picking-a-router)，因此直接支持了 [`unstable_viewtransition`](https://reactrouter.com/en/main/components/link#unstable_viewtransition)
+
+或者直接使用 `flushSync` 也没啥问题
+
+```js
+import { flushSync } from 'react-dom'
+import { useNavigate } from 'react-router-dom'
+
+export default function useNavigateWithTransition() {
+  const navigate = useNavigate()
+  return function (to) {
+    document.startViewTransition(() => {
+      flushSync(() => {
+        navigate(to)
+      });
+    });
+  }
+}
+```
+
+### Vue
+
+vue 提供了 `nextTick` API，执行返回一个 promise，会在下一次 dom 更新后兑现
+
+在 `startViewTransition` 回调中进行 vue-router 组件切换，同时返回 `nextTick()` promise，`startViewTransition` 就会等待 `nextTick()` 兑现后再去截取新帧，然后正确应用 view transition 过渡动画
+
+```js
+import { nextTick } from 'vue'
+import { useRouter } from 'vue-router'
+
+export default function useNavigateWithTransition() {
+  const router = useRouter()
+  return function navigate(path) {
+    document.startViewTransition(() => {
+      router.push(path)
+      return nextTick()
+    })
+  }
+}
+```
+
+## MPA 跨文档视图转换
+
+启用 MPA 过渡要求仅适用于同源页面，MPA 过渡使用旧页面跳转前作为旧帧，跳转后为新帧
+
+1. 这种情况下没法调用 `startViewTransition` 因此需要在 css 中新增 `@view-transition` at-rule 标记
+  ```css
+  @view-transition {
+    navigation: auto;
+  }
+  ```
+2. pageswap 和 pagereveal 事件
+  - pageswap 事件在网页最后一帧呈现之前触发。可以在此时机做最后的修改。
+  - pagereveal 事件会在网页上完成初始化首次呈现机会之前触发。可以在截取新帧之前自定义新页面。
+
+与单页面过渡一样，浏览器自动选取两个页面中相同 `view-transition-name` 的元素，以 group 为单位进行前后的补间动画过渡
