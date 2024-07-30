@@ -113,11 +113,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 </div>
               )}
             </div>
-            <footer>
+            <footer className='sticky top-4'>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
                 {content.toc.length > 0 && (
                   <div className="py-4 xl:py-8">
-                    <h2 className="text-xs tracking-wide text-gray-500 dark:text-gray-400">Toc</h2>
+                    <h2 className="text-xs tracking-wide text-gray-500 dark:text-gray-400 mb-2">目录</h2>
                     <TOCInline
                       toc={content.toc}
                       liClassName="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 post-layout-toc"
