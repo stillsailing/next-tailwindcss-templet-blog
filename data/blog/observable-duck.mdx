@@ -1,9 +1,9 @@
 ---
-title: 'observable-duck：Redux 与 RxJS 的组合'
+title: 'observable-duck'
 date: '2024-05-30'
 tags: ['javascript', 'redux', 'rxjs']
 draft: false
-summary: 最新动画 View Transition API 的使用介绍与代码实践
+summary: observable-duck：Redux 与 RxJS 的组合
 ---
 
 ## RxJS
@@ -120,6 +120,7 @@ streamerMiddleware.run(rootStreamer)
 下面的 observable-duck 则借鉴 saga-duck 的做法，将 redux-saga 的支持替换成 redux-observable-action，同时优化 ts 类型支持，使得 redux store 在 duck 和 react 组件中更加类型完备
 
 ## observable-duck
+
 将 redux 和 rxjs 的 Observable 组合在一起，可以方便的聚合逻辑并且支持流出 state 到 react 组件，类型完备，开发体验良好
 
 ### 基本使用
