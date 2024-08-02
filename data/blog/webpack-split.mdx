@@ -1,0 +1,169 @@
+---
+title: Webpack 拆包优化
+date: '2024-02-20'
+tags: ['javascript', 'webpack']
+draft: false
+summary: 
+---
+
+对于大型 SPA 来说如果不做任何配置，整出一个业务 chunk 的话，单个 chunk 的体积就会特别大，网络环境差时加载起来更是灾难，白屏问题也将会比较严重，
+因此就需要将单个 chunk 按照一定原则拆分成多个，还可以控制各个 chunk 的加载顺序。
+
+## 路由拆分
+
+在应用中第一个推荐的就是按照路由拆分，可以每个路由的注册都使用动态导入的方式，或者通过 webpack 提供的 webpackChunkName 魔法字符串合并多个路由到同一 chunk，
+相同的名称会被合并到一起，更多魔法字符串的使用说明请参考[文档](https://webpack.js.org/api/module-methods/#magic-comments)
+
+```tsx
+import * as React from 'react'
+import { Routes, Route } from 'react-router-dom'
+
+export default function RegisteredRouter() {
+  return (
+    <React.Suspense fallback={<Spin />}>
+      <Routes>
+        <Route path='/'>
+          {/** 首页不进行拆分 */}
+          <Route index Component={Index} />
+          <Route
+            path='about'
+            Component={React.lazy(() => import(/* webpackChunkName: "main-about" */ './about'))}
+          />
+          {/** 单独合并路由 test1 & test2 出包 */}
+          <Route
+            path='test1'
+            Component={React.lazy(() => import(/* webpackChunkName: "main-test" */ './test1'))}
+          />
+          <Route
+            path='test2'
+            Component={React.lazy(() => import(/* webpackChunkName: "main-test" */ './test2'))}
+          />
+          <Route path='*' Component={NotFound} />
+        </Route>
+      </Routes>
+    </React.Suspense>
+  )
+}
+```
+
+并且在出包时推荐使用 contenthash 为各个 chunk 打上版本标志，这每次出包就只有更改了代码的模块 hash 发生变化，其他未更改代码的模块就可以被 cdn 继续缓存
+（前提是你使用了 cdn 并且设置了强缓存策略）
+
+```js
+/**
+ * webpack.config.js
+ * @type {import('webpack').Configuration}
+ */
+module.exports = {
+  entry: './src/index.tsx',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
+    filename: '[name].[contenthash].js',
+  },
+  // ...
+}
+```
+
+## 分析模块引入
+
+在进行下一步之前先看下各个模块的引入情况，通过引入 webpack-bundle-analyzer plugin 在打包完成后进行查看
+
+```js
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+
+/**
+ * @type {import('webpack').Configuration}
+ */
+module.exports = {
+  // ...
+  plugins: [
+    new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
+    // ...
+  ]
+}
+```
+
+从下面截图可以看出来，大部分依赖还是集中在 main chunk 中，这个时候就可以考虑进一步拆分 node_modules 中的第三方依赖。
+
+<img src="/static/images/mdx/webpack-split-route.png" />
+
+## 拆分 vendor chunk
+
+拆分 node_modules 中的第三方依赖为单独的 vendor chunk 最明显的好处和前面按路由拆分的好处一致，就是可以使用网络缓存策略，
+webpack 提供了 SplitChunksPlugin plugin 可以将公共的依赖模块提取到单独 chunk 中，webpack5 已将该插件内置，因此直接新增配置即可
+
+```js
+/**
+ * webpack.config.js
+ * @type {import('webpack').Configuration}
+ */
+module.exports = {
+  // ...
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      maxAsyncRequests: 20,
+      maxInitialRequests: 10,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+  },
+}
+```
+
+但更好的做法是将基本固定的第三方依赖单独拆分，这样每次构建这部分基本不会发生变动可以更好的利用缓存策略，比如下面将 react 和 rxjs 都拆分成单独 chunks
+
+```js
+/**
+ * webpack.config.js
+ * @type {import('webpack').Configuration}
+ */
+module.exports = {
+  // ...
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      maxAsyncRequests: 20,
+      maxInitialRequests: 10,
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+          name: 'react',
+          chunks: 'all',
+          enforce: true,
+          priority: 20, // 设置较高的优先级，先于 vendor chunk
+        },
+        rxjs: {
+          test: /[\\/]node_modules[\\/](rxjs)[\\/]/,
+          name: 'rxjs',
+          chunks: 'all',
+          enforce: true,
+          priority: 10,
+        },
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+  },
+}
+```
+
+就得到下面的结果，之后的构建部署过程中，应用的大部分代码都被浏览器缓存过，只有业务代码变动重新拉取，就可以很大提升用户体验
+
+<img src="/static/images/mdx/webpack-split-route-vendor.png" />
+
+## 更多优化
+
+- 代码压缩
+- CSS 合并压缩
+- Tree Shaking + sideEffects 主动标记
+- ...
