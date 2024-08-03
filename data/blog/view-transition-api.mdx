@@ -1,5 +1,5 @@
 ---
-title: 'View Transition API'
+title: View Transition API
 date: '2024-07-30'
 tags: ['css', 'javascript']
 draft: false
@@ -157,7 +157,7 @@ export default function useNavigateWithTransition() {
 
 chrome 126 版本正式支持了 MPA 跨文档视图转换，试用本例子前请注意兼容性
 
-启用 MPA 过渡要求仅适用于同源页面，MPA 过渡使用旧页面跳转前作为旧帧，跳转后为新帧
+启用 MPA 过渡要求仅适用于**同源页面**，MPA 过渡使用旧页面跳转前作为旧帧，跳转后为新帧
 
 1. 这种情况下没法调用 `startViewTransition` 因此需要在 css 中新增 `@view-transition` at-rule 标记
   ```css
