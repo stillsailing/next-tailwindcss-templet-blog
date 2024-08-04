@@ -8,6 +8,7 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import ScrollProcess from '@/components/ScrollProcess'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -21,6 +22,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
   return (
     <SectionContainer>
+      <ScrollProcess />
       <ScrollTopAndComment />
       <article>
         <div>
