@@ -5,6 +5,7 @@
 - [ ] better toc
 - [ ] logo
 - [ ] about
+- [ ] [Google Cloud Translation API](https://cloud.google.com/translate/?hl=zh-cn)
 
 ## contentlayer2
 
