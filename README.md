@@ -19,5 +19,6 @@ tags: ['tags', 'in', 'a', 'list']
 summary: 'A Good Summary'
 ---
 
-Happy Writing!
-```
+Happy Writing! quote 1[^1]
+
+[^1]: quote 1
