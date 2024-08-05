@@ -45,7 +45,7 @@ summary: 摆脱推荐算法，简化你的信息获取方式，如何用 RSS 订
 </rss>
 ```
 
-你可以发现还有很多网站像 MDN 这里一样提供了这个文件，拿它是用来干什么的呢？
+你可以发现还有很多网站像 MDN 这里一样提供了这个文件，那它是干什么的呢？
 
 ## RSS 是什么
 
@@ -85,6 +85,8 @@ RSS 订阅软件也就是 RSS 阅读器，拿 Web 端的 [Feedly](https://feedly
 
 比如我很喜欢玩炉石传说，我想订阅炉石传说官网发布的[版本更新动态](https://hearthstone.blizzard.com/zh-tw/news)（炉石暂时没有国服，不过快回归了，这里是台服游戏资讯链接），上下找遍了没有提供 RSS 订阅支持，可偏偏我想订阅的网站没有提供怎么办？
 
+<img src="/static/images/mdx/rss-hearthstone.png" />
+
 ### 爬虫 + 组装
 
 订阅只需要一个 rss.xml，既然它不提供那我们就帮它提供：在服务端对资讯发布网站进行爬虫，提取出关键信息后，组装出 rss.xml 然后再在阅读器中进行订阅就行了，还是非常简单的。
@@ -111,7 +113,7 @@ RSS 订阅软件也就是 RSS 阅读器，拿 Web 端的 [Feedly](https://feedly
       - `<pubDate>`：内容项的发布时间。
       - `<guid>`：内容项的唯一标识符。
 
-不过也不需要自己手动组装订阅信息，直接使用现成的轮子更好 [feed](https://github.com/jpmonette/feed)，这样代码如下
+不过也不需要自己手动组装订阅信息，直接使用现成的轮子 [feed](https://github.com/jpmonette/feed) 更好，这样代码如下
 
 ```js
 const { Feed } = require('feed')
