@@ -1,0 +1,159 @@
+---
+title: 如何用 RSS 订阅一切
+date: '2023-12-22'
+tags: ['rss', 'feed']
+draft: false
+summary: 摆脱推荐算法，简化你的信息获取方式，如何用 RSS 订阅一切，网站、博客、社交平台...
+---
+
+你在浏览网站的时候一定见到过这个像 wifi 的标志，一般在底部或者顶部，不过这并不是 wifi 😂 而是表示您可以使用 rss 订阅此网站 
+
+<img src="/static/images/mdx/mdn-rss.png" />
+
+点击将会请求到这样一个文件
+
+```xml:https://developer.mozilla.org/en-US/blog/rss.xml
+<rss version="2.0">
+  <channel>
+    <title>MDN Blog</title>
+    <link>https://developer.mozilla.org/en-US/blog/</link>
+    <description>The MDN Web Docs blog publishes articles about web development, open source software, web platform updates, tutorials, changes and updates to MDN, and more.</description>
+    <lastBuildDate>Mon, 05 Aug 2024 00:38:21 GMT</lastBuildDate>
+    <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <language>en</language>
+    <image>
+      <title>MDN Blog</title>
+      <url>https://developer.mozilla.org/mdn-social-share.png</url>
+      <link>https://developer.mozilla.org/en-US/blog/</link>
+    </image>
+    <copyright>All rights reserved 2023, MDN</copyright>
+    <item>
+      <title>
+        <![CDATA[ Exploring the Broadcast Channel API for cross-tab communication ]]>
+      </title>
+      <link>https://developer.mozilla.org/en-US/blog/exploring-the-broadcast-channel-api-for-cross-tab-communication/</link>
+      <guid>https://developer.mozilla.org/en-US/blog/exploring-the-broadcast-channel-api-for-cross-tab-communication/</guid>
+      <pubDate>Fri, 12 Jul 2024 00:00:00 GMT</pubDate>
+      <description>
+        <![CDATA[ This article explains how to use the Broadcast Channel API to build synchronized and interconnected web applications. ]]>
+      </description>
+      <enclosure url="https://developer.mozilla.org/en-US/blog/exploring-the-broadcast-channel-api-for-cross-tab-communication/featured.png" length="0" type="image/png"/>
+    </item>
+    ...
+  </channel>
+</rss>
+```
+
+你可以发现还有很多网站像 MDN 这里一样提供了这个文件，拿它是用来干什么的呢？
+
+## RSS 是什么
+
+首先 RSS 是 Really Simple Syndication 的英文缩写，意为“真正简单的聚合”。
+
+它是一种基于 XML 的内容发布和分发格式，RSS 文档中存储了一个网站的摘要信息，常用于新闻网站和博客。
+
+### RSS 标准
+
+RSS 还算是一个 “历史悠久” 的产物，是 Netscape 于 1999 年发布了第一版，基于 XML；
+
+而后是 RSS 1.0 版本基于 [RDF](https://www.w3.org/RDF/)（Resource Description Framework，用于表示信息的框架，适用于描述网络资源及其关系），完全不兼容 0.9；
+
+现在使用的基本都是 RSS 2.0 则由 RSS 0.92 扩展而来，仍基于 XML;
+
+## 如何使用
+
+那么拿到一个网站的 RSS 摘要文件后如何使用呢？
+
+可以使用该摘要文件在 RSS 订阅软件中进行订阅。这样就不需要手动查看您喜爱的网站也能获取这些网站的更新内容，像旧时候订阅报纸一样每天送到你手上，实现信息推送的自动化。
+
+### RSS 阅读器
+
+RSS 订阅软件也就是 RSS 阅读器，拿 Web 端的 [Feedly](https://feedly.com) 举例：
+
+将 rss.xml 文件 url 添加为订阅源，然后就可以在阅读器中自由 reading 了，就这么简单！
+
+可以自由的组合信息集，不用手动点到网络上各个地方查找，完全避免垃圾信息和广告的打扰！
+
+<img src="/static/images/mdx/feedly.png" />
+
+更推荐的做法是使用移动端的阅读器，当有信息更新时，阅读器直接更方便的推送，比如 [NetNewsWire](https://netnewswire.com/)、[FeedMe](https://github.com/seazon/FeedMe) 等，市场中很多此类应用，您可以自由选择。
+
+## 如何订阅一切
+
+很多博客网站都提供了 RSS 订阅支持，可偏偏我想订阅的网站没有提供怎么办？
+
+比如我很喜欢玩炉石传说，我想订阅炉石传说官网发布的[版本更新动态](https://hearthstone.blizzard.com/zh-tw/news)（炉石暂时没有国服，不过快回归了，这里是台服游戏资讯链接），上下找遍了没有提供 RSS 订阅支持，可偏偏我想订阅的网站没有提供怎么办？
+
+### 爬虫 + 组装
+
+订阅只需要一个 rss.xml，既然它不提供那我们就帮它提供：在服务端对资讯发布网站进行爬虫，提取出关键信息后，组装出 rss.xml 然后再在阅读器中进行订阅就行了，还是非常简单的。
+
+当自己生成 rss 订阅文件时就需要注意下 rss 的格式了，RSS 2.0 文件的基本结构包括一个 rss 根元素和一个 channel 元素，后者包含多个 item 元素，每个 item 元素代表一个内容项。可参考上文展示的 rss.xml 查看。
+
+- `<rss>`：根元素，定义 RSS 版本。
+  - `<channel>`：包含 RSS 源的基本信息和内容项。
+    - `<title>`：频道的标题。
+    - `<link>`：频道的链接。
+    - `<description>`：频道的描述。
+    - `<language>`：频道的语言。
+    - `<pubDate>`：频道的发布时间。
+    - `<lastBuildDate>`：频道的最后构建时间。
+    - `<docs>`：RSS 规范的 URL。
+    - `<generator>`：生成 RSS 源的程序。
+    - `<managingEditor>`：频道的编辑邮箱。
+    - `<webMaster>`：频道的管理员邮箱。
+    - `<item>`：描述每个内容项。
+      - `<title>`：内容项的标题。
+      - `<link>`：内容项的链接。
+      - `<description>`：内容项的描述。
+      - `<author>`：内容项的作者邮箱。
+      - `<pubDate>`：内容项的发布时间。
+      - `<guid>`：内容项的唯一标识符。
+
+不过也不需要自己手动组装订阅信息，直接使用现成的轮子更好 [feed](https://github.com/jpmonette/feed)，这样代码如下
+
+```js
+const { Feed } = require('feed')
+const axios = require('axios')
+
+const app = require('express')()
+
+app.get('/heartstone', async (req, res) => {
+  const feed = new Feed({
+    id: '炉石传说-版本通知',
+    title: '炉石传说-版本通知',
+    copyright: 'copyright@chenyh.site',
+    link: 'https://hearthstone.blizzard.com/zh-tw/news',
+    description: '炉石传说-版本通知',
+    image: 'https://d39zum0jwvcigt.cloudfront.net/images/blog/bg_header_news-2ec53df9a8551d7a464ad6ffe49221170442e676f0c2be447b717898e2ce425a644f96e2f8d18662dbdfb0f5c78c457b08fb269e8f487d7085dda53a0940aab7.jpg',
+  });
+  const result = await axios.get('https://hearthstone.blizzard.com/zh-tw/api/blog/articleList/?page=1&pageSize=12')
+  result.data.forEach((item) => {
+    feed.addItem({
+      title: item.title,
+      link: item.defaultUrl,
+      date: new Date(item.created),
+      description: item.content,
+      author: item.author,
+    });
+  })
+  res.setHeader('Cache-Control', 'max-age=3600')
+  res.setHeader('Content-Type', 'text/xml;charset=utf-8')
+  res.send(feed.rss2())
+})
+
+app.listen(process.env.PORT)
+```
+
+### RSSHub
+
+但什么都要自己写就太累了，GitHub 已经有一个很棒的仓库，保存着很多别人帮助生成的订阅源：[RSSHub](https://github.com/DIYgod/RSSHub) 
+
+RSSHub 是一个开源、可扩展的 RSS 订阅生成器。能从几乎任何内容生成 RSS 订阅源。它做的事情其实也是爬虫 + 组装。当我们想要订阅不提供 RSS 支持的网站时可以先在 RSSHub 中寻找是否已有提供。
+
+配合其提供的 [RSSHub-Radar](https://github.com/DIYgod/RSSHub-Radar) 浏览器扩展，可以一键复制订阅源，更加方便。
+
+<img src="/static/images/mdx/rss-radar.png" />
+
+如果没提供也可以自己实现然后提交代码到 RSSHub，然后就真的可以实现订阅一切了～
