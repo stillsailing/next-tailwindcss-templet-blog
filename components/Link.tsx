@@ -31,18 +31,11 @@ const CustomLink = ({
   }
 
   if (isAnchorLink) {
-    return <a className="break-words" href={href} {...rest} style={composedStyle} />
+    return <a className="break-words" href={href} {...rest} />
   }
 
   return (
-    <a
-      className="break-words"
-      target="_blank"
-      rel="noopener noreferrer"
-      href={href}
-      {...rest}
-      style={composedStyle}
-    />
+    <a className="break-words" target="_blank" rel="noopener noreferrer" href={href} {...rest} />
   )
 }
 

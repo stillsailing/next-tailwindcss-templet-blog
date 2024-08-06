@@ -1,4 +1,3 @@
-import 'css/transition.css'
 import 'css/prism.css'
 import 'katex/dist/katex.css'
 
