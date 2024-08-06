@@ -1,0 +1,91 @@
+---
+title: 如何在浏览器扩展程序中创建音乐播放器
+date: '2024-08-06'
+tags: ['javascript', 'chrome']
+draft: true
+summary: 如何在浏览器插件中创建音乐播放器
+---
+
+弹出窗口中创建 `audio` 后，仅存在于弹出窗口文档中，关闭就没了，扩展程序支持 service_worker 持续运行，但 service_worker 不支持访问 DOM API，因此需要借助离屏文档；
+
+省流：
+
+1. 在 service_worker 中创建 offsrceen document
+2. 在 offsrceen document 中创建 `audio`
+3. 使用 `chrome.runtime.onMessage` 通信
+
+## 注册后台脚本和离屏文档权限
+
+```json:manifest.json
+{
+  "manifest_version": 3,
+  "name": "name",
+  "description": "description",
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "permissions": ["background", "offscreen"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
+```
+
+## Service Worker
+
+```js:background.js
+let creating
+async function setupOffscreenDocument() {
+  const path = 'offscreen.html'
+  const offscreenUrl = chrome.runtime.getURL(path)
+  const existingContexts = await chrome.runtime.getContexts({
+    contextTypes: [chrome.runtime.ContextType.OFFSCREEN_DOCUMENT],
+    documentUrls: [offscreenUrl],
+  })
+
+  if (existingContexts.length > 0) {
+    return
+  }
+
+  // create offscreen document
+  if (creating) {
+    await creating
+  } else {
+    creating = chrome.offscreen.createDocument({
+      url: path,
+      reasons: [chrome.offscreen.Reason.AUDIO_PLAYBACK],
+      justification: 'AUDIO_PLAYBACK for needing the document',
+    })
+    await creating
+    creating = null
+  }
+}
+
+// 监听来自弹出窗口的消息
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  setupOffscreenDocument()
+})
+```
+
+## Offsrceen Document
+
+```html:offscreen.html
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      class Player { /** ... */ }
+      let player
+      chrome.runtime.onMessage.addListener((action, sender, sendResponse) => {
+        if (!player) {
+          player = new Player()
+        }
+        /** ... */
+      })
+    </script>
+  </body>
+</html>
+```
+
