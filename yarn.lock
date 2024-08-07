@@ -6580,6 +6580,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"heic2any@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "heic2any@npm:0.0.4"
+  checksum: 3b7a064fb621ebf215559744436ef66bf4facf40f3fa6fe08f76aa96ff34d9539b616f62a3443b171094226b399966f8f17fc5f0fd73b49fdab70dc0661e307f
+  languageName: node
+  linkType: hard
+
 "html-enumerated-attributes@npm:^1.0.0":
   version: 1.1.0
   resolution: "html-enumerated-attributes@npm:1.1.0"
@@ -11057,6 +11064,7 @@ __metadata:
     github-slugger: ^2.0.0
     gray-matter: ^4.0.2
     hast-util-from-html-isomorphic: ^2.0.0
+    heic2any: ^0.0.4
     husky: ^9.0.0
     image-size: 1.0.0
     lint-staged: ^13.0.0

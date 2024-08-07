@@ -5,9 +5,11 @@ import type { MDXComponents } from 'mdx/types'
 import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
+import HEICImage from './HEICImage'
 
 export const components: MDXComponents = {
   Image,
+  HEICImage,
   TOCInline,
   a: CustomLink,
   pre: Pre,
