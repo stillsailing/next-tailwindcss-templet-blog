@@ -25,7 +25,7 @@ const HEICImage = ({ src, ...rest }) => {
       // safari 支持 heic 格式图片，无需转换
       convert(`${basePath || ''}${src}`).then((imgSrc) => setImgSrc(imgSrc))
     }
-  }, [])
+  }, [src])
 
   return <img src={imgSrc} {...rest} />
 }
