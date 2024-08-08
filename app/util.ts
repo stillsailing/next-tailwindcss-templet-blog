@@ -4,6 +4,9 @@ export function correctViewTransitionName(name?: string) {
 }
 
 export function isSafari() {
+  if (typeof window === 'undefined') {
+    return false
+  }
   const ua = navigator.userAgent.toLowerCase()
   return ua.includes('safari') && !ua.includes('chrome')
 }

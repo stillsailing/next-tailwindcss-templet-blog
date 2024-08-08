@@ -1,15 +1,15 @@
 import TOCInline from 'pliny/ui/TOCInline'
 import Pre from 'pliny/ui/Pre'
 import BlogNewsletterForm from 'pliny/ui/BlogNewsletterForm'
+import dynamic from 'next/dynamic'
 import type { MDXComponents } from 'mdx/types'
 import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
-import HEICImage from './HEICImage'
 
 export const components: MDXComponents = {
   Image,
-  HEICImage,
+  HEICImage: dynamic(() => import('./HEICImage'), { ssr: false }), // disable pre-render
   TOCInline,
   a: CustomLink,
   pre: Pre,
