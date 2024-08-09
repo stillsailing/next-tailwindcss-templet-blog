@@ -82,10 +82,6 @@ module.exports = () => {
       ],
       unoptimized,
     },
-    workbox: {
-      swSrc: './worker/service_worker.js',
-      swDest: '/service_worker.js',
-    },
     async headers() {
       return [
         {
@@ -111,6 +107,13 @@ module.exports = () => {
           ],
         },
       ]
+    },
+    workbox: {
+      swSrc: './worker/service_worker.js',
+      dest: 'public',
+      swDest: '/service_worker.js',
+      force: true,
+      exclude: [/\.map$/, /_next\/static\/.*/, /_next\/app-build-manifest\.json/], // 更新路径
     },
     webpack: (config, options) => {
       config.module.rules.push({

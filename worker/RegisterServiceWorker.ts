@@ -5,7 +5,7 @@ import { Workbox } from 'workbox-window'
 
 function register() {
   window.addEventListener('load', async () => {
-    if ('serviceWorker' in navigator && process.env.NODE_ENV === "production") {
+    if ('serviceWorker' in navigator) {
       try {
         const wb = new Workbox("/service_worker.js", { scope: "/" })
         await wb.register()

@@ -1,17 +1,28 @@
 import { precacheAndRoute } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate } from 'workbox-strategies'
+import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies'
 
-// pre-cache files
-precacheAndRoute(self.__WB_MANIFEST)
+// Precache files
+// precacheAndRoute(self.__WB_MANIFEST, {
+//   // 忽略 404 错误
+//   ignoreURLParametersMatching: [/.*/],
+//   cleanURLs: false,
+//   directoryIndex: null,
+//   urlManipulation: ({ url }) => {
+//     if (url.pathname.endsWith('/_next/app-build-manifest.json')) {
+//       return null // 忽略该文件
+//     }
+//     return [url]
+//   },
+// })
 
 // Cache pages
-registerRoute(
-  ({ request }) => request.mode === 'navigate',
-  new StaleWhileRevalidate({
-    cacheName: 'pages-cache',
-  })
-)
+// registerRoute(
+//   ({ request }) => request.mode === 'navigate',
+//   new StaleWhileRevalidate({
+//     cacheName: 'pages-cache',
+//   })
+// )
 
 // Cache static resources
 registerRoute(
