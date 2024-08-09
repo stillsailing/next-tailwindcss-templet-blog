@@ -92,6 +92,24 @@ module.exports = () => {
           source: '/(.*)',
           headers: securityHeaders,
         },
+        {
+          source: '/:path*\\.HEIC',
+          headers: [
+            {
+              key: 'Content-Type',
+              value: 'image/heic',
+            },
+          ],
+        },
+        {
+          source: '/service_worker.js',
+          headers: [
+            {
+              key: 'Service-Worker-Allowed',
+              value: '/',
+            },
+          ],
+        },
       ]
     },
     webpack: (config, options) => {
