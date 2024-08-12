@@ -3,14 +3,7 @@ import { registerRoute } from 'workbox-routing'
 import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies'
 
 // Precache files
-precacheAndRoute(self.__WB_MANIFEST, {
-  urlManipulation: (url) => {
-    if (url.url.pathname.includes('/_next/app-build-manifest.json')) {
-      return null
-    }
-    return [url]
-  },
-})
+precacheAndRoute(self.__WB_MANIFEST)
 
 // Cache pages
 registerRoute(

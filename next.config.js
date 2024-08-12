@@ -113,7 +113,7 @@ module.exports = () => {
       dest: 'public',
       swDest: '/service_worker.js',
       force: true,
-      exclude: [/\.map$/, /_next\/static\/.*/, /_next\/app-build-manifest\.json/], // 更新路径
+      exclude: [/\.map$/, /_next\/static\/.*/], // 更新路径
     },
     webpack: (config, options) => {
       config.module.rules.push({
