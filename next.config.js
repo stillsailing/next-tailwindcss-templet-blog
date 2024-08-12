@@ -114,6 +114,7 @@ module.exports = () => {
       swDest: '/service_worker.js',
       force: true,
       exclude: [/\.map$/, /_next\/static\/.*/], // 更新路径
+      include: [/_next\/app-build-manifest\.json/],
     },
     webpack: (config, options) => {
       config.module.rules.push({
