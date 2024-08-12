@@ -1,0 +1,57 @@
+---
+title: 如何使用 Service Worker 增强应用
+date: '2024-08-12'
+tags: ['javascript', 'nextjs', 'Service Worker']
+draft: true
+summary: 使用 Service Worker 缓存增强应用，甚至于离线使用
+---
+
+## Service Worker 是什么
+
+Service Worker 是专门的 JavaScript 资源，用作网络浏览器和网络服务器之间的代理。类似于 Web Worker，所有工作都独立于主线程执行。
+
+结合 [CacheStorage API](https://developer.mozilla.org/zh-CN/docs/Web/API/CacheStorage)，在 Service Worker 中拦截应用中所有请求并添加相应的缓存策略，
+就可以在离线场景下，使用本地缓存降级支持所有请求响应，从而实现网络应用的离线使用。
+
+请注意使用 Service Worker 属于渐进式增强，也就是如果不支持 Service Worker 或者在 Service Worker 中工作出错，应用仅是退化成普通的 Web 应用，基本功能不会中断支持。
+
+## Service Worker 的生命周期[^1]
+
+一个网页如果添加了 Service Worker 支持的话，首次访问网页时，页面的加载和 Service Worker 下载安装同时进行，页面正常提供基本功能。
+
+### 在主线程注册 Service Worker
+
+```js
+window.addEventListener('load', () => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js').then(() => {
+      console.log('Service worker registered!')
+    })
+  }
+})
+```
+
+### Service Worker 安装
+
+Service Worker 会在注册后触发其 install 事件。每个 Service Worker 只能调用 install 一次，并且在更新前不会再次触发。
+
+```js:service-worker.js
+self.addEventListener('install', (event) => { })
+```
+
+### Service Worker 激活 activated
+
+如果注册和安装成功，Service Worker 就会激活，并且其状态会变为 'activating'。可以在此时开始工作。
+
+```js
+self.addEventListener('activate', (event) => {
+  event.waitUntil(/** task() */)
+})
+```
+
+在安装并激活 Service Worker 后，它将接管页面，开始工作，提高可靠性和速度。
+
+### 更新
+
+
+[^1]: [Service Worker 生命周期](https://web.dev/articles/service-worker-lifecycle?hl=zh-cn)
