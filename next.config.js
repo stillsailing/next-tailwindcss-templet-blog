@@ -109,7 +109,7 @@ module.exports = () => {
       ]
     },
     workbox: {
-      swSrc: './worker/service_worker.js',
+      swSrc: './worker/service_worker.ts',
       dest: 'public',
       swDest: '/service_worker.js',
       force: true,

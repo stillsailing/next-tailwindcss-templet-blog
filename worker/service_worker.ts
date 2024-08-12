@@ -2,6 +2,8 @@ import { precacheAndRoute } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
 import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies'
 
+declare const self: ServiceWorkerGlobalScope
+
 // Precache files
 precacheAndRoute(self.__WB_MANIFEST)
 
