@@ -1,6 +1,6 @@
 import { precacheAndRoute } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies'
+import { StaleWhileRevalidate } from 'workbox-strategies'
 
 declare const self: ServiceWorkerGlobalScope
 
@@ -10,7 +10,7 @@ precacheAndRoute(self.__WB_MANIFEST)
 // Cache pages
 registerRoute(
   ({ request }) => request.mode === 'navigate',
-  new NetworkFirst({
+  new StaleWhileRevalidate({
     cacheName: 'pages-cache',
   })
 )
@@ -21,7 +21,7 @@ registerRoute(
     request.destination === 'style' ||
     request.destination === 'script' ||
     request.destination === 'image',
-  new NetworkFirst({
+  new StaleWhileRevalidate({
     cacheName: 'static-resources-cache',
   })
 )
