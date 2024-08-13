@@ -8,7 +8,7 @@ function register() {
     if ('serviceWorker' in navigator) {
       try {
         const wb = new Workbox("/service_worker.js", {
-          scope: '/'
+          scope: '/',
         })
         await wb.register()
         console.info('service_worker register successful')
