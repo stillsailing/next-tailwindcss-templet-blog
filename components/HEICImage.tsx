@@ -25,7 +25,7 @@ async function convert(src: string) {
 
 const HEICImage = ({ src, ...rest }) => {
   const { data, error, isLoading } = useSWR('convert image/heic', () => convert(src))
-  if (isLoading) return <Skeleton />
+  if (isLoading) return <Skeleton>{src}</Skeleton>
   return <img src={data} {...rest} />
 }
 
