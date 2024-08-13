@@ -65,6 +65,9 @@ module.exports = {
           },
         },
       }),
+      aspectRatio: {
+        golden: '1.618 / 1',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],

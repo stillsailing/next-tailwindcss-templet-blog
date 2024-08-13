@@ -1,0 +1,19 @@
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: grow-progress auto linear;
+    transform-origin: 0 50%;
+    animation-timeline: scroll(root);
+  }
+
+  @keyframes grow-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+}
+
+@supports not (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: none;
+  }
+}

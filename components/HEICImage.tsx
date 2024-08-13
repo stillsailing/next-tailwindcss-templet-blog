@@ -3,10 +3,16 @@
 import { isSafari } from 'app/util'
 import heic2any from 'heic2any'
 import { useEffect, useState } from 'react'
+import useSWR from 'swr'
+import Skeleton from './Skeleton'
 
 const basePath = process.env.BASE_PATH
 
 async function convert(src: string) {
+  if (isSafari()) {
+    // safari 支持 heic 格式图片，无需转换
+    return src
+  }
   const blob = await fetch(src).then((res) => res.blob())
   const convertion = await heic2any({
     blob,
@@ -18,16 +24,9 @@ async function convert(src: string) {
 }
 
 const HEICImage = ({ src, ...rest }) => {
-  const [imgSrc, setImgSrc] = useState(isSafari() ? src : '')
-
-  useEffect(() => {
-    if (!isSafari()) {
-      // safari 支持 heic 格式图片，无需转换
-      convert(`${basePath || ''}${src}`).then((imgSrc) => setImgSrc(imgSrc))
-    }
-  }, [src])
-
-  return <img src={imgSrc} {...rest} />
+  const { data, error, isLoading } = useSWR('convert image/heic', () => convert(src))
+  if (isLoading) return <Skeleton />
+  return <img src={data} {...rest} />
 }
 
 export default HEICImage

@@ -1,7 +1,7 @@
 /**
  * https://caniuse.bitsofco.de/embed/index.html?feat=feature
- * @param param0 
- * @returns 
+ * @param param
+ * @returns
  */
 const Compatibility = ({ feat, height }: { feat: string; height: string | number }) => {
   return (
