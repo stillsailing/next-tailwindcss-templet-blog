@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 interface SkeletonProps {
   className?: string
   children?: ReactNode
