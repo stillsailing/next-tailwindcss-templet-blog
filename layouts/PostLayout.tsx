@@ -33,7 +33,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags } = content
+  const { filePath, path, slug, date, lastUpdateDate, title, tags } = content
   const basePath = path.split('/')[0]
 
   return (
@@ -99,6 +99,21 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>
+              {lastUpdateDate && (
+                <dl className="p-2 text-end">
+                  <div>
+                    <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      最后更新于
+                      <time dateTime={lastUpdateDate}>
+                        {new Date(lastUpdateDate).toLocaleDateString(
+                          siteMetadata.locale,
+                          postDateTemplate
+                        )}
+                      </time>
+                    </dd>
+                  </div>
+                </dl>
+              )}
               <div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">
                 <Link href={discussUrl(path)} rel="nofollow">
                   Discuss on Twitter

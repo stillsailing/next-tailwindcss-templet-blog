@@ -1,6 +1,7 @@
 ---
 title: 如何使用 ServiceWorker 增强应用
 date: '2024-08-13'
+lastUpdateDate: '2024-08-14'
 tags: ['javascript', 'nextjs', 'ServiceWorker', 'chrome']
 draft: false
 summary: 使用 ServiceWorker 缓存增强应用，甚至于离线使用
@@ -215,7 +216,8 @@ module.exports = {
 }
 ```
 
-最后可以看到，网络处于关闭状态，刷新页面网络请求全部失败，但回退到缓存，仍然可以正常加载展示，真正实现离线使用
+最后可以看到，网络处于关闭状态，此时刷新页面，网络请求全部由 ServiceWorker 代理发起，虽然全部失败，但可以回退到缓存，
+ServiceWorker 仍能给到主线程响应，页面也得以正常加载展示，真正实现了离线使用
 
 ![sw-offline](/static/images/mdx/sw-offline.png)
 
