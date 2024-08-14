@@ -10,7 +10,7 @@ summary: 使用 ServiceWorker 缓存增强应用，甚至于离线使用
 
 ServiceWorker 是专门的 JavaScript 资源，用作网络浏览器和网络服务器之间的代理。类似于 Web Worker，所有工作都独立于主线程执行。
 
-结合 [CacheStorage API](https://developer.mozilla.org/zh-CN/docs/Web/API/CacheStorage)，在 ServiceWorker 中拦截应用中所有请求并添加相应的缓存策略，
+结合 [Cache API](https://developer.mozilla.org/zh-CN/docs/Web/API/CacheStorage)，在 ServiceWorker 中拦截应用中所有请求并添加相应的缓存策略，
 就可以在离线场景下，使用本地缓存降级支持所有请求响应，从而实现网络应用的离线使用。
 
 请注意以下两点
