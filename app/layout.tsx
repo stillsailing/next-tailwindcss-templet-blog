@@ -17,7 +17,7 @@ import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 
-const RegisterServiceWorker = dynamic(() => import('@/worker/RegisterServiceWorker'), {
+const RegisterServiceWorker = dynamic(() => import('@/components/RegisterServiceWorker'), {
   ssr: false,
 })
 

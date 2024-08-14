@@ -71,7 +71,7 @@ module.exports = () => {
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     eslint: {
-      dirs: ['app', 'components', 'layouts', 'scripts', 'worker'],
+      dirs: ['app', 'components', 'layouts', 'scripts'],
     },
     images: {
       remotePatterns: [
@@ -109,7 +109,7 @@ module.exports = () => {
       ]
     },
     workbox: {
-      swSrc: './worker/service_worker.ts',
+      swSrc: './scripts/service_worker.ts',
       dest: 'public',
       swDest: '/service_worker.js',
       force: true,
