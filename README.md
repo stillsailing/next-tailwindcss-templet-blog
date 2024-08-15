@@ -1,5 +1,7 @@
 ## [chenyh.site](https://chenyh.site)
 
+template from [tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog)
+
 ## Todo
 
 - [ ] better toc
