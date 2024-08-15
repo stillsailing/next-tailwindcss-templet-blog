@@ -13,10 +13,6 @@ import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import TOCInline from 'pliny/ui/TOCInline'
 import ScrollProcess from '@/components/ScrollProcess'
 
-const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-const discussUrl = (path) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
-
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
   year: 'numeric',
@@ -114,13 +110,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </div>
                 </dl>
               )}
-              <div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl(path)} rel="nofollow">
-                  Discuss on Twitter
-                </Link>
-                {` • `}
-                <Link href={editUrl(filePath)}>View on GitHub</Link>
-              </div>
               {siteMetadata.comments && (
                 <div
                   className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300"
@@ -131,7 +120,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               )}
             </div>
             <footer className="sticky top-4">
-              <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
+              <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 max-xl:hidden xl:col-start-1 xl:row-start-2 xl:divide-y">
                 {content.toc.length > 0 && (
                   <div className="py-4 xl:py-8">
                     <h2 className="mb-2 text-xs tracking-wide text-gray-500 dark:text-gray-400">

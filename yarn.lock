@@ -3274,6 +3274,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dom-view-transitions@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@types/dom-view-transitions@npm:1.0.5"
+  checksum: 4190915a3d4c63d4c590d5e64d14ca1d1140496a75adb5af64b0ef13e075cc7676bff926f5c5c60305c4f6d46965a196c119a7960cbe0ff40e95e17e82334c22
+  languageName: node
+  linkType: hard
+
 "@types/estree-jsx@npm:^1.0.0":
   version: 1.0.5
   resolution: "@types/estree-jsx@npm:1.0.5"
@@ -3408,7 +3415,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.73":
+"@types/react-dom@npm:^18.3.0":
+  version: 18.3.0
+  resolution: "@types/react-dom@npm:18.3.0"
+  dependencies:
+    "@types/react": "*"
+  checksum: a0cd9b1b815a6abd2a367a9eabdd8df8dd8f13f95897b2f9e1359ea3ac6619f957c1432ece004af7d95e2a7caddbba19faa045f831f32d6263483fc5404a7596
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:*, @types/react@npm:^18.2.73":
   version: 18.3.3
   resolution: "@types/react@npm:18.3.3"
   dependencies:
@@ -11697,8 +11713,10 @@ __metadata:
     "@svgr/webpack": ^8.0.1
     "@tailwindcss/forms": ^0.5.7
     "@tailwindcss/typography": ^0.5.12
+    "@types/dom-view-transitions": ^1.0.5
     "@types/mdx": ^2.0.12
     "@types/react": ^18.2.73
+    "@types/react-dom": ^18.3.0
     "@typescript-eslint/eslint-plugin": ^6.1.0
     "@typescript-eslint/parser": ^6.1.0
     "@vercel/analytics": ^1.3.1

@@ -1,5 +1,5 @@
 export function correctViewTransitionName(name?: string) {
-  if (!name) return
+  if (!name) return 'default-view-transition-name'
   return name.replace(/[^a-zA-Z0-9]/g, '-')
 }
 
