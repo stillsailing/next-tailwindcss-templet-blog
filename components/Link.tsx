@@ -11,15 +11,25 @@ const CustomLink = ({
   const isAnchorLink = href && href.startsWith('#')
 
   if (isInternalLink) {
-    return <InternalLink className="break-words" href={href} {...rest}>{children}</InternalLink>
+    return (
+      <InternalLink className="break-words" href={href} {...rest}>
+        {children}
+      </InternalLink>
+    )
   }
 
   if (isAnchorLink) {
-    return <a className="break-words" href={href} {...rest}>{children}</a>
+    return (
+      <a className="break-words" href={href} {...rest}>
+        {children}
+      </a>
+    )
   }
 
   return (
-    <a className="break-words" target="_blank" rel="noopener noreferrer" href={href} {...rest}>{children}</a>
+    <a className="break-words" target="_blank" rel="noopener noreferrer" href={href} {...rest}>
+      {children}
+    </a>
   )
 }
 
