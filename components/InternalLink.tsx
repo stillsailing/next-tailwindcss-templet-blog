@@ -15,6 +15,9 @@ const InternalLink = ({
   const router = useRouter()
   const ref = useRef<HTMLAnchorElement>(null)
   const navigate = async (event: MouseEvent<HTMLAnchorElement>) => {
+    if (!document.startViewTransition) {
+      return
+    }
     event.preventDefault()
     if (ref.current) {
       ref.current.style.viewTransitionName = correctViewTransitionName(viewTransitionName)
