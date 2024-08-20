@@ -5,6 +5,7 @@ template from [tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-
 ## Todo
 
 - [ ] better toc
+- [ ] font
 - [ ] logo
 - [ ] about
 - [ ] [Google Cloud Translation API](https://cloud.google.com/translate/?hl=zh-cn)

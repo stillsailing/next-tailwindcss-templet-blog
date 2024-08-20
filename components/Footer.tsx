@@ -18,9 +18,10 @@ export default function Footer() {
           <SocialIcon kind="instagram" href={siteMetadata.instagram} size={6} />
           <SocialIcon kind="threads" href={siteMetadata.threads} size={6} />
         </div>
-        <div className="mb-2 flex space-x-2">
-          <div>{siteMetadata.author}</div>
-          <div>{`© ${new Date().getFullYear()}`}</div>
+        <div className="mb-2 flex gap-1">
+          <div>{siteMetadata.headerTitle}</div>
+          <div>{'©'}</div>
+          <div>{new Date().getFullYear()}</div>
         </div>
         <div className="mb-6 flex gap-2 text-xs">
           Powered By
