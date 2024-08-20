@@ -100,7 +100,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SnippetLayout content={mainContent} authorDetails={authorDetails} next={next} prev={prev}>
+      <SnippetLayout content={mainContent} authorDetails={authorDetails}>
         <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
       </SnippetLayout>
     </>
