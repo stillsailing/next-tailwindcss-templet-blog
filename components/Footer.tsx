@@ -1,7 +1,7 @@
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
-import { Nextjs, TailwindCSS, Vercel } from '@/components/social-icons/icons'
+import { Vercel } from '@/components/social-icons/icons'
 
 export default function Footer() {
   return (
@@ -20,23 +20,15 @@ export default function Footer() {
         </div>
         <div className="mb-2 flex space-x-2">
           <div>{siteMetadata.author}</div>
-          <div>{` • `}</div>
           <div>{`© ${new Date().getFullYear()}`}</div>
         </div>
-        <div className="mb-6 flex gap-2">
-          <Link href="https://nextjs.org" className="flex items-center gap-1">
-            <Nextjs className="h-4 w-4 fill-current" />
-            Nextjs
-          </Link>
-          <div>{` • `}</div>
-          <Link href="https://tailwindcss.com" className="flex items-center gap-1">
-            <TailwindCSS className="h-4 w-4 fill-current" />
-            TailwindCSS
-          </Link>
-          <div>{` • `}</div>
-          <Link href="https://vercel.com" className="flex items-center gap-1">
-            <Vercel className="h-4 w-4 fill-current" />
-            Vercel
+        <div className="mb-6 flex gap-2 text-xs">
+          Powered By
+          <Link href="https://vercel.com" className="flex items-center gap-1 ">
+            <Vercel className="h-3 w-3 fill-current" />
+            <text className="underline-offset-2 hover:text-primary-400 hover:underline">
+              Vercel
+            </text>
           </Link>
         </div>
       </div>
