@@ -62,8 +62,8 @@ self.addEventListener('activate', (event) => {
 ```js
 navigator.serviceWorker.register('/service_worker.js').then(reg => {
   // sometime later…
-  reg.update();
-});
+  reg.update()
+})
 ```
 
 ## 拦截网络请求
@@ -71,7 +71,7 @@ navigator.serviceWorker.register('/service_worker.js').then(reg => {
 ServiceWorker 支持 fetch 事件，监听主线程发出的任何请求，先忽略这里 `caches.open()` 的调用，下文再介绍
 
 ```js:service_worker.js
-const cacheName = 'ImageCacheName';
+const cacheName = 'ImageCacheName'
 
 self.addEventListener('fetch', async (event) => {
   if (event.request.destination === 'image') {
@@ -82,10 +82,10 @@ self.addEventListener('fetch', async (event) => {
       return cachedImage
     }
     const response = await fetch(event.request.url)
-    cacheStore.put(event.request, fetchedResponse.clone());
+    cacheStore.put(event.request, fetchedResponse.clone())
     return response
   }
-});
+})
 ```
 
 `event.request` 类型声明
@@ -191,7 +191,7 @@ registerRoute(
 ```
 
 ```js:next.config.js
-const { InjectManifest } = require("workbox-webpack-plugin");
+const { InjectManifest } = require("workbox-webpack-plugin")
 
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}

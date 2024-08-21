@@ -55,45 +55,46 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
             </div>
           </header>
           <div className="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
-            <div className="relative divide-y divide-gray-200 dark:divide-gray-700 xl:pb-0">
+            <div className="divide-gray-200 dark:divide-gray-700 max-xl:divide-y xl:pb-0">
               {content.toc.length > 0 && (
-                <div className="overflow-hidden py-4 2xl:absolute 2xl:-left-72 2xl:w-64 2xl:py-8">
-                  <h2 className="mb-2 text-xs tracking-wide text-gray-500 dark:text-gray-400">
-                    目录
-                  </h2>
-                  <nav className="sticky top-0 text-sm">
-                    <TOCInline
-                      toc={content.toc}
-                      liClassName="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 post-layout-toc"
-                    />
-                  </nav>
+                <div className="top-20 overflow-visible max-2xl:py-4 2xl:sticky">
+                  <div className="2xl:absolute 2xl:-left-72 2xl:w-64">
+                    <h2 className="mb-2 text-xs tracking-wide text-gray-500 dark:text-gray-400">
+                      目录
+                    </h2>
+                    <nav className="text-sm">
+                      <TOCInline
+                        toc={content.toc}
+                        liClassName="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 post-layout-toc"
+                      />
+                    </nav>
+                  </div>
                 </div>
               )}
               <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>
-              {lastUpdateDate && (
-                <dl className="p-2 text-end">
-                  <div>
-                    <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
-                      最后更新于
-                      <time dateTime={lastUpdateDate}>
-                        {new Date(lastUpdateDate).toLocaleDateString(
-                          siteMetadata.locale,
-                          postDateTemplate
-                        )}
-                      </time>
-                    </dd>
-                  </div>
-                </dl>
-              )}
-              {siteMetadata.comments && (
-                <div
-                  className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300"
-                  id="comment"
-                >
-                  <Comments slug={slug} />
-                </div>
-              )}
             </div>
+          </div>
+          <div className="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
+            {lastUpdateDate && (
+              <dl className="p-2 text-end">
+                <div>
+                  <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
+                    最后更新于
+                    <time dateTime={lastUpdateDate}>
+                      {new Date(lastUpdateDate).toLocaleDateString(
+                        siteMetadata.locale,
+                        postDateTemplate
+                      )}
+                    </time>
+                  </dd>
+                </div>
+              </dl>
+            )}
+            {siteMetadata.comments && (
+              <div className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">
+                <Comments slug={slug} />
+              </div>
+            )}
           </div>
           <footer>
             <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 max-xl:hidden xl:row-start-2 xl:divide-y">
