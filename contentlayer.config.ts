@@ -116,7 +116,7 @@ async function uploadAlgoliaSearchIndex(allBlogs) {
     indexName,
     objects: allCoreContent(sortPosts(allBlogs)),
   })
-  console.log('uploadAlgoliaIndexed')
+  console.log('AlgoliaSearchIndex Uploaded')
 }
 
 export const Blog = defineDocumentType(() => ({
