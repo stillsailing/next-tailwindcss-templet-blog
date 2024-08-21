@@ -103,9 +103,9 @@ self.addEventListener('fetch', async (event) => {
 
 上面在 ServiceWorker 中缓存的使用与 HTTP 缓存并不冲突，Cache 接口是一种完全独立于 HTTP 缓存的缓存机制。可以认为是比 HTTP 应用层缓存更高一层的 JavaScript API 级别的磁盘缓存（不同于代码级别实现的运行时内存缓存）
 
-Cache API 为 Request / Response 对象提供缓存机制，它与 ServiceWorker 的生命周期 API 的一部分提供，但它同时也是暴露在 window 作用域下的，不必一定要配合 service worker 使用。
+Cache API 为 Request / Response 对象提供缓存机制，它与 ServiceWorker 的生命周期 API 的一部分提供，但它同时也是暴露在 window 作用域下的，不必一定要配合 ServiceWorker 使用。
 
-关于 Service Worker 缓存的一些重要 API 方法包括：
+关于 ServiceWorker 缓存的一些重要 API 方法包括：
 
 - `CacheStorage.open` 创建新的 Cache 实例，或者通过 `Window.caches` 或 `WorkerGlobalScope.caches` 访问
 - `Cache.add` 和 `Cache.put` 将网络响应存储在缓存中。

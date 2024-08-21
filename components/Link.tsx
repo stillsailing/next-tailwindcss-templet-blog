@@ -1,6 +1,6 @@
 import type { LinkProps } from 'next/link'
 import { AnchorHTMLAttributes } from 'react'
-import InternalLink from './InternalLink'
+import Link from 'next/link'
 
 const CustomLink = ({
   href,
@@ -12,9 +12,9 @@ const CustomLink = ({
 
   if (isInternalLink) {
     return (
-      <InternalLink className="break-words" href={href} {...rest}>
+      <Link className="break-words" href={href} {...rest}>
         {children}
-      </InternalLink>
+      </Link>
     )
   }
 

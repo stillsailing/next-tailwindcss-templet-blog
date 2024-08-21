@@ -22,7 +22,8 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        sans: ['ubuntu', 'var(--font-space-grotesk)', ...fontFamily.sans],
+        sans: ['var(--font-ubuntu)', 'var(--font-space-grotesk)', ...fontFamily.sans],
+        mono: ['var(--font-ubuntu-mono)', ...fontFamily.mono],
       },
       colors: {
         primary: colors.indigo,
@@ -47,6 +48,9 @@ module.exports = {
             },
             code: {
               color: theme('colors.indigo.500'),
+            },
+            'code, kbd, samp, pre': {
+              fontSize: '1rem',
             },
           },
         },

@@ -65,7 +65,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                     <nav className="text-sm">
                       <TOCInline
                         toc={content.toc}
-                        liClassName="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 post-layout-toc"
+                        liClassName="font-medium text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 post-layout-toc"
                       />
                     </nav>
                   </div>
