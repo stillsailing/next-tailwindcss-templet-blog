@@ -81,18 +81,18 @@ const siteMetadata = {
     },
   },
   search: {
-    provider: 'kbar', // kbar or algolia
-    kbarConfig: {
-      searchDocumentsPath: `${process.env.BASE_PATH || ''}/search.json`, // path to load documents to search
-    },
-    // provider: 'algolia',
-    // algoliaConfig: {
-    //   // The application ID provided by Algolia
-    //   appId: 'R2IYF7ETH7',
-    //   // Public API key: it is safe to commit it
-    //   apiKey: '599cec31baffa4868cae4e79f180729b',
-    //   indexName: 'docsearch',
+    // provider: 'kbar', // kbar or algolia
+    // kbarConfig: {
+    //   searchDocumentsPath: `${process.env.BASE_PATH || ''}/search.json`, // path to load documents to search
     // },
+    provider: 'algolia',
+    algoliaConfig: {
+      // The application ID provided by Algolia
+      appId: process.env.ALGOLIA_APP_ID,
+      // Public API key: it is safe to commit it
+      apiKey: process.env.ALGOLIA_API_KEY,
+      indexName: 'chenyh.site',
+    },
   },
 }
 

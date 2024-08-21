@@ -73,6 +73,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@algolia/client-abtesting@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@algolia/client-abtesting@npm:5.1.0"
+  dependencies:
+    "@algolia/client-common": 5.1.0
+    "@algolia/requester-browser-xhr": 5.1.0
+    "@algolia/requester-node-http": 5.1.0
+  checksum: cb072d67676cb00b6ea4deeeaa6656e0e22af16262826a613a5eac2fe03dd78a767d34dd53f251c5b362733099e3eda41dcecbaa5826e4b3ecafea76193171fa
+  languageName: node
+  linkType: hard
+
 "@algolia/client-account@npm:4.24.0":
   version: 4.24.0
   resolution: "@algolia/client-account@npm:4.24.0"
@@ -96,6 +107,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@algolia/client-analytics@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@algolia/client-analytics@npm:5.1.0"
+  dependencies:
+    "@algolia/client-common": 5.1.0
+    "@algolia/requester-browser-xhr": 5.1.0
+    "@algolia/requester-node-http": 5.1.0
+  checksum: 9e0f2b35e6235db1b848b9f49057c1452dcc4d5576f93ee91907f326efc4e8e95c2fc19e2abd248ed0c1a812d1b249625aca988710247467a56bb771606bd6d4
+  languageName: node
+  linkType: hard
+
 "@algolia/client-common@npm:4.24.0":
   version: 4.24.0
   resolution: "@algolia/client-common@npm:4.24.0"
@@ -103,6 +125,13 @@ __metadata:
     "@algolia/requester-common": 4.24.0
     "@algolia/transporter": 4.24.0
   checksum: 19c6615f9e1b0bbda7dd8ecd285c5bdf48d7067223b06e385a6c69a20a6d6500086619fa0f9e63403cf33220d5d7a288360df55452fdf00f5feca8ca9852758a
+  languageName: node
+  linkType: hard
+
+"@algolia/client-common@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@algolia/client-common@npm:5.1.0"
+  checksum: 5705afe547570503939ce8eeb63e7fd4ca14c6cd0944837f38c552a9b04e3b8faea71e20f904c06d371a9819baba1514c7e00ed1e7a6532af57dd650dafc4957
   languageName: node
   linkType: hard
 
@@ -117,6 +146,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@algolia/client-personalization@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@algolia/client-personalization@npm:5.1.0"
+  dependencies:
+    "@algolia/client-common": 5.1.0
+    "@algolia/requester-browser-xhr": 5.1.0
+    "@algolia/requester-node-http": 5.1.0
+  checksum: 6b546d6a05b619ae47611f153f4a4e52e430a23f4e5a995700a5808e26c83b9bbe13bb6886dde6b4e39d660d87c54c0f13e384bece1cd47c1bff0864a40ad930
+  languageName: node
+  linkType: hard
+
 "@algolia/client-search@npm:4.24.0":
   version: 4.24.0
   resolution: "@algolia/client-search@npm:4.24.0"
@@ -125,6 +165,17 @@ __metadata:
     "@algolia/requester-common": 4.24.0
     "@algolia/transporter": 4.24.0
   checksum: 2d19823994e92490885115188d75994fbcc7a407fbe14f52034b191607a51081ed476e367a65c889666f6b337b00d700203204d55666f182809f01fbd29fd1fb
+  languageName: node
+  linkType: hard
+
+"@algolia/client-search@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@algolia/client-search@npm:5.1.0"
+  dependencies:
+    "@algolia/client-common": 5.1.0
+    "@algolia/requester-browser-xhr": 5.1.0
+    "@algolia/requester-node-http": 5.1.0
+  checksum: 56160e5bf5d2789b6f5085442e4bbca8073ace12eb6d34ca45ded6b6caca99f3ce5546cc6fe85741788efef45cbe6eb6f68ca155c62cfb2bdd7e32a421eba488
   languageName: node
   linkType: hard
 
@@ -163,12 +214,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@algolia/recommend@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@algolia/recommend@npm:5.1.0"
+  dependencies:
+    "@algolia/client-common": 5.1.0
+    "@algolia/requester-browser-xhr": 5.1.0
+    "@algolia/requester-node-http": 5.1.0
+  checksum: aa98013ecfa65c933cdf59e3722ebf0df877a382b5928aefdfff26b5bf5410633241dcfabb6a4bcd13ae1d394a510fd0c936fb17121634e344647f2da60e2bf8
+  languageName: node
+  linkType: hard
+
 "@algolia/requester-browser-xhr@npm:4.24.0":
   version: 4.24.0
   resolution: "@algolia/requester-browser-xhr@npm:4.24.0"
   dependencies:
     "@algolia/requester-common": 4.24.0
   checksum: 7c32d38d6c7a83357f52134f50271f1ee3df63888b28bc53040a3c74ef73458d80efaf44a5943a3769e84737c2ffd0743e1044a3b5e99ce69289f63e22b50f2a
+  languageName: node
+  linkType: hard
+
+"@algolia/requester-browser-xhr@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@algolia/requester-browser-xhr@npm:5.1.0"
+  dependencies:
+    "@algolia/client-common": 5.1.0
+  checksum: 9804a2a56df1e74e16ae0bc5c5bb480cdc5916072058447820533f8d8c6f8c597e411395e04c0470cd4bc996c4f2a576e0025e2eca2228c36715c1b02c10760b
   languageName: node
   linkType: hard
 
@@ -185,6 +256,15 @@ __metadata:
   dependencies:
     "@algolia/requester-common": 4.24.0
   checksum: 387ee892bf35f46be269996de88f9ea12841796aa33cb5088ba6460a48733614a33300ee44bca0af22b6fded05c16ec92631fb998e9a7e1e6a30504d8b407c23
+  languageName: node
+  linkType: hard
+
+"@algolia/requester-node-http@npm:5.1.0":
+  version: 5.1.0
+  resolution: "@algolia/requester-node-http@npm:5.1.0"
+  dependencies:
+    "@algolia/client-common": 5.1.0
+  checksum: 776a57f8bbdc8109a8753e748f61105e0ff4fc26e7fc97cff29206b5e668cc10a287ed96d5d43ef7086c14f5f5de3540e1adeb318cfdaaad5fd225470737e896
   languageName: node
   linkType: hard
 
@@ -3813,6 +3893,22 @@ __metadata:
     "@algolia/requester-node-http": 4.24.0
     "@algolia/transporter": 4.24.0
   checksum: 13cae6ea7ff05e068906dcb101b940bcf1a4ea41008757554c16a7951cdaa3af3094e547e3e51f9e751f68906b5654506e1dd4a1debb1b9d54cbb227ca83e8db
+  languageName: node
+  linkType: hard
+
+"algoliasearch@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "algoliasearch@npm:5.1.0"
+  dependencies:
+    "@algolia/client-abtesting": 5.1.0
+    "@algolia/client-analytics": 5.1.0
+    "@algolia/client-common": 5.1.0
+    "@algolia/client-personalization": 5.1.0
+    "@algolia/client-search": 5.1.0
+    "@algolia/recommend": 5.1.0
+    "@algolia/requester-browser-xhr": 5.1.0
+    "@algolia/requester-node-http": 5.1.0
+  checksum: 2482645c934c673c6d21d28f097ad5f8378a465e0275392f9be1e3588bcf339cf0007803e57e2109478ca4cc5afd49835b6ac35fe47cb052eb0b5c8a03791626
   languageName: node
   linkType: hard
 
@@ -11721,6 +11817,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.1.0
     "@vercel/analytics": ^1.3.1
     "@vercel/speed-insights": ^1.0.12
+    algoliasearch: ^5.1.0
     autoprefixer: ^10.4.13
     contentlayer2: 0.4.6
     cross-env: ^7.0.3
