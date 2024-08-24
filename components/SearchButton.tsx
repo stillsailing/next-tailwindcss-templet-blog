@@ -1,8 +1,12 @@
 import { AlgoliaButton } from 'pliny/search/AlgoliaButton'
 import { KBarButton } from 'pliny/search/KBarButton'
 import siteMetadata from '@/data/siteMetadata'
+import Algolia from './Algolia'
 
 const SearchButton = () => {
+  // if (siteMetadata.search && siteMetadata.search.provider === 'algolia') {
+  //   return <Algolia {...siteMetadata.search.algoliaConfig} />
+  // }
   if (
     siteMetadata.search &&
     (siteMetadata.search.provider === 'algolia' || siteMetadata.search.provider === 'kbar')

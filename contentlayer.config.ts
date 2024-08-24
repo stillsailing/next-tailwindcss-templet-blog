@@ -24,6 +24,7 @@ import rehypePresetMinify from 'rehype-preset-minify'
 import siteMetadata from './data/siteMetadata'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
 import { Algoliasearch } from 'algoliasearch'
+import { getAlgoliaObjects } from './scripts/getAlgoliaObjects'
 
 const root = process.cwd()
 const isProduction = process.env.NODE_ENV === 'production'
@@ -114,7 +115,7 @@ async function uploadAlgoliaSearchIndex(allBlogs) {
   await client.clearObjects({ indexName })
   await client.saveObjects({
     indexName,
-    objects: allCoreContent(sortPosts(allBlogs)),
+    objects: getAlgoliaObjects(allCoreContent(sortPosts(allBlogs))),
   })
   console.log('AlgoliaSearchIndex Uploaded')
 }
