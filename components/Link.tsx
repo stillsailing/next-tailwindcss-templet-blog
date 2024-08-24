@@ -5,6 +5,7 @@ import Link from 'next/link'
 const CustomLink = ({
   href,
   children,
+  viewTransitionName,
   ...rest
 }: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement> & { viewTransitionName?: string }) => {
   const isInternalLink = href && href.startsWith('/')

@@ -28,6 +28,7 @@ module.exports = {
       colors: {
         primary: colors.indigo,
         gray: colors.gray,
+        white: 'hsl(0deg 0% 99%)',
       },
       typography: ({ theme }) => ({
         DEFAULT: {
@@ -74,5 +75,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'), require('daisyui')],
 }

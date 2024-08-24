@@ -6,6 +6,7 @@
 const Compatibility = ({ feat, height }: { feat: string; height: string | number }) => {
   return (
     <iframe
+      aria-hidden
       title={feat}
       src={`https://caniuse.bitsofco.de/embed/index.html?feat=${feat}`}
       className="w-full"
