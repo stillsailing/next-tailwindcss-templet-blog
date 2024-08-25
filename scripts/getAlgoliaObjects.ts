@@ -3,7 +3,6 @@ import { CoreContent, MDXDocumentDate } from 'pliny/utils/contentlayer'
 
 export function getAlgoliaObjects(blogs: CoreContent<MDXDocumentDate>[]) {
   return blogs.map((blog) => {
-    console.log(blog)
     const map = new Map<number, string[]>()
     blog?.toc.forEach((item) => {
       if (!map.get(item.depth)) {
@@ -11,10 +10,15 @@ export function getAlgoliaObjects(blogs: CoreContent<MDXDocumentDate>[]) {
       }
       map.get(item.depth)?.push(item.value)
     })
+    const url = `${siteMetadata.siteUrl}/${blog.path}`
     return {
-      url: `${siteMetadata.siteUrl}/${blog.path}`,
+      objectID: url,
+      url,
       title: blog.title,
       content: blog.summary,
+      author: 'chenyh.site@gmail.com',
+      tags: blog.tags,
+      date: blog.date,
       hierarchy: {
         lvl0: blog.title,
         lvl1: map.get(1) || [],
