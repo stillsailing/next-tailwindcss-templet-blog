@@ -2,11 +2,7 @@
 
 import { isSafari } from 'app/util'
 import heic2any from 'heic2any'
-import { useEffect, useState } from 'react'
 import useSWR from 'swr'
-import Skeleton from './Skeleton'
-
-const basePath = process.env.BASE_PATH
 
 async function convert(src: string) {
   if (isSafari()) {
@@ -25,7 +21,7 @@ async function convert(src: string) {
 
 const HEICImage = ({ src, ...rest }) => {
   const { data, error, isLoading } = useSWR('convert image/heic', () => convert(src))
-  if (isLoading) return <Skeleton>{src}</Skeleton>
+  if (isLoading) return <div className="skeleton aspect-golden w-full"></div>
   return <img src={data} {...rest} />
 }
 
