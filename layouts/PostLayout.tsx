@@ -2,7 +2,6 @@ import 'css/post-layout.css'
 import { ReactNode } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog, Authors } from 'contentlayer/generated'
-import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
@@ -28,7 +27,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
-  const { path, slug, date, lastUpdateDate, title, tags } = content
+  const { path, date, lastUpdateDate, title, tags } = content
   const basePath = path.split('/')[0]
 
   return (
@@ -74,8 +73,8 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
               <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>
             </div>
           </div>
-          <div className="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
-            {lastUpdateDate && (
+          {lastUpdateDate && (
+            <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:divide-y-0">
               <dl className="p-2 text-end">
                 <div>
                   <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
@@ -89,13 +88,8 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                   </dd>
                 </div>
               </dl>
-            )}
-            {siteMetadata.comments && (
-              <div className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-                <Comments slug={slug} />
-              </div>
-            )}
-          </div>
+            </div>
+          )}
           <footer>
             <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 max-xl:hidden xl:row-start-2 xl:divide-y">
               {tags?.length && (
