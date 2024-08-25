@@ -7,21 +7,24 @@ import { WalineConfig } from '@/data/data'
 import { useLayoutEffect } from 'react'
 import { init } from '@waline/client'
 import { usePathname } from 'next/navigation'
+import { useTheme } from 'next-themes'
 import '@waline/client/style'
 
 const Waline = ({ server }: WalineConfig['walineConfig']) => {
   const path = usePathname()
+  const { resolvedTheme } = useTheme()
 
   useLayoutEffect(() => {
     const waline = init({
       serverURL: server,
       el: '#waline',
       path,
+      dark: resolvedTheme === 'dark',
     })
     return () => waline?.destroy()
-  }, [path])
+  }, [path, resolvedTheme])
 
-  return <div id="waline"></div>
+  return <div id="waline" className="waline-container"></div>
 }
 
 export default Waline

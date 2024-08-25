@@ -53,7 +53,7 @@ const siteMetadata = {
   comments: {
     provider: 'waline',
     walineConfig: {
-      server: 'https://h45wx1wh.lc-cn-n1-shared.com',
+      server: 'https://waline-vercel-green.vercel.app',
     },
 
     // If you want to use an analytics provider you have to add it to the
