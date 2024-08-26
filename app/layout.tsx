@@ -4,7 +4,7 @@ import 'css/component.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
-import { Space_Grotesk, Ubuntu, Ubuntu_Mono } from 'next/font/google'
+import { Space_Grotesk, Ubuntu, Ubuntu_Mono, Bungee_Outline } from 'next/font/google'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
@@ -39,6 +39,13 @@ const ubuntu_mono = Ubuntu_Mono({
   display: 'swap',
   variable: '--font-ubuntu-mono',
   weight: ['400', '700'],
+})
+
+const bungee_outline = Bungee_Outline({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-bungee-outline',
+  weight: '400',
 })
 
 export const metadata: Metadata = {
@@ -87,7 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${space_grotesk.variable} ${ubuntu.variable} ${ubuntu_mono.variable} scroll-smooth`}
+      className={`${space_grotesk.variable} ${ubuntu.variable} ${ubuntu_mono.variable} ${bungee_outline.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link

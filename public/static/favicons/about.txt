@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Bungee Outline
+- Font Author: Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)
+- Font Source: https://fonts.gstatic.com/s/bungeeoutline/v21/_6_mEDvmVP24UvU2MyiGDslL3Qg3YhJqPXxo.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL)
