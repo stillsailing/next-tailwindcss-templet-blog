@@ -24,7 +24,7 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-ubuntu)', 'var(--font-space-grotesk)', ...fontFamily.sans],
         mono: ['var(--font-ubuntu-mono)', ...fontFamily.mono],
-        'header-title': ['var(--font-bungee-outline)'],
+        shade: ['var(--font-bungee-shade)'],
       },
       colors: {
         primary: colors.indigo,
