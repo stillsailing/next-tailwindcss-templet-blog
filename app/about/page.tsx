@@ -1,6 +1,6 @@
 import { Authors, allAuthors } from 'contentlayer/generated'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
-import AuthorLayout from '@/layouts/AuthorLayout'
+import AboutLayout from '@/layouts/AboutLayout'
 import { coreContent } from 'pliny/utils/contentlayer'
 import { genPageMetadata } from 'app/seo'
 import Comments from '@/components/Comments'
@@ -13,9 +13,9 @@ export default function Page() {
 
   return (
     <>
-      <AuthorLayout content={mainContent}>
+      <AboutLayout content={mainContent}>
         <MDXLayoutRenderer code={author.body.code} />
-      </AuthorLayout>
+      </AboutLayout>
       <div className="">
         <div className="divider"></div>
         <h2 className="mb-4 text-lg font-bold">给我留言</h2>

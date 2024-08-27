@@ -8,7 +8,7 @@ interface Props {
   content: Omit<Authors, '_id' | '_raw' | 'body'>
 }
 
-export default function AuthorLayout({ children, content }: Props) {
+export default function AboutLayout({ children, content }: Props) {
   const { name, avatar, occupation, company, email, twitter, linkedin, github } = content
 
   return (
@@ -23,7 +23,7 @@ export default function AuthorLayout({ children, content }: Props) {
           <div className="flex flex-col items-center space-x-2 pt-8">
             {avatar && (
               <div className="avatar">
-                <div className="mask mask-hexagon w-32 bg-primary-100 p-2 dark:bg-primary-900">
+                <div className="mask mask-hexagon w-32 bg-primary-100 p-5 dark:bg-primary-900">
                   <Image
                     src={avatar}
                     alt="avatar"
