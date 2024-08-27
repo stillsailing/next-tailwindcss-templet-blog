@@ -4,7 +4,7 @@ const siteMetadata = {
   author: 'chenyh',
   headerTitle: 'chenyh.site',
   description: '',
-  language: 'zh-cn',
+  language: 'zh-CN',
   theme: 'system', // system, dark or light
   siteUrl: 'https://chenyh.site',
   siteRepo: 'https://github.com/stillsailing/next-tailwindcss-templet-blog',
