@@ -33,16 +33,25 @@ export default function Footer() {
             </a>
             <div>{'|'}</div>
             <div>
-              Template from&nbsp;
+              Template From&nbsp;
               <a
                 className="text-sm text-primary-500 underline-offset-2 transition hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
                 href={'https://github.com/timlrx/tailwind-nextjs-starter-blog'}
               >
-                here
+                Here
               </a>
             </div>
+            <div>{'|'}</div>
+            <a
+              className="text-sm text-primary-500 underline-offset-2 transition hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`mailto:${siteMetadata.email}`}
+            >
+              Email Me
+            </a>
           </div>
           <div className="mb-6 flex gap-2 text-xs">
             Powered By

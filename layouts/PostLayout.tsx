@@ -27,7 +27,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
-  const { path, date, lastUpdateDate, title, tags } = content
+  const { path, date, lastUpdateDate, title, tags, readingTime } = content
   const basePath = path.split('/')[0]
 
   return (
@@ -36,28 +36,23 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       <ScrollTopAndComment />
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
-          <header className="pt-6 xl:pb-6">
+          <header className="py-6">
             <div className="space-y-1 text-center">
               <div>
                 <PageTitle viewTransitionName={title}>{title}</PageTitle>
               </div>
-              <dl className="space-y-10">
-                <div>
-                  <dt className="sr-only">Published on</dt>
-                  <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                    <time dateTime={date}>
-                      {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
-                    </time>
-                  </dd>
-                </div>
-              </dl>
+              <div className="flex items-center justify-center gap-4 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                <time dateTime={date}>
+                  {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
+                </time>
+              </div>
             </div>
           </header>
           <div className="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
             <div className="divide-gray-200 dark:divide-gray-700 max-xl:divide-y xl:pb-0">
               {content.toc.length > 0 && (
-                <div className="top-20 overflow-visible max-2xl:py-4 2xl:sticky">
-                  <div className="rounded bg-gray-50 p-4 dark:bg-gray-900/70 dark:shadow-gray-800/40 2xl:absolute 2xl:-left-72 2xl:w-64 2xl:shadow-md">
+                <div className="sticky top-28 overflow-visible max-2xl:hidden">
+                  <div className="absolute -left-72 w-64 rounded bg-gray-50 p-4 shadow-md dark:bg-gray-900/70 dark:shadow-gray-800/40">
                     <h2 className="mb-2 text-xs tracking-wide text-gray-500 dark:text-gray-400">
                       目录
                     </h2>
