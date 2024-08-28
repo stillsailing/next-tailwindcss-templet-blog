@@ -37,11 +37,11 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="py-6">
-            <div className="space-y-1 text-center">
+            <div className="text-center">
               <div>
                 <PageTitle viewTransitionName={title}>{title}</PageTitle>
               </div>
-              <div className="flex items-center justify-center gap-4 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+              <div className="mt-4 flex items-center justify-center gap-4 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                 <time dateTime={date}>
                   {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
                 </time>

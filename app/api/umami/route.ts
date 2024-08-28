@@ -1,6 +1,8 @@
 import siteMetadata from '@/data/siteMetadata'
+import { NextRequest } from 'next/server'
 
-async function handler(path: string) {
+async function handler(req: NextRequest) {
+  const searchs = new URLSearchParams(req.url)
   const websiteId = siteMetadata.analytics?.umamiAnalytics?.umamiWebsiteId
   const token = process.env.UMAMI_API_KEY
   let endpoint = `https://api.umami.is/api/websites/${websiteId}/metrics?type=pageviews`
@@ -9,7 +11,7 @@ async function handler(path: string) {
     startAt: 0,
     endAt: Date.now(),
     unit: 'month',
-    url: path,
+    url: searchs.get('path'),
   }
 
   Object.keys(params).forEach((key) => {
