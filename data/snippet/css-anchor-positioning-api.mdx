@@ -1,10 +1,7 @@
 ---
 title: CSS Anchor Positioning API
 date: '2024-08-03'
-tags: ['css']
 draft: false
-layout: PostSimple
-summary: 使用最新的 CSS Anchor Position API 更方便的实现锚定相对定位
 ---
 
 > CSS Anchor Positioning API 是 Web 开发领域的颠覆性改变，因为它让你能够相对于其他元素以原生方式定位元素（称为“锚点”）。
@@ -12,8 +9,6 @@ summary: 使用最新的 CSS Anchor Position API 更方便的实现锚定相对�
 借助内置于浏览器中的锚点定位，您将能够构建分层界面，而无需依赖第三方库，开启了一个充满创意的世界。[^1]
 
 最新的 CSS Anchor Position 锚点定位是基于 absolute 定位的
-
-## 基本使用
 
 设定**锚点**和**定位元素**
 
@@ -41,7 +36,7 @@ button {
 
 比如下面
 
-<div>
+<div class="flex justify-center items-center py-10">
   <button className="border-2 border-gray-100 rounded py-1 px-2 mt-2" style={{ anchorName: '--anchor-el' }} >button</button>
   <div 
     style={{ 
@@ -53,9 +48,5 @@ button {
     className="py-2 px-4 bg-slate-300 rounded shadow"
   >popover</div>
 </div>
-
-## 兼容性
-
-<Compatibility feat="css-anchor-positioning" height="500px" />
 
 [^1]: [CSS Anchor Positioning API](https://developer.chrome.com/blog/anchor-positioning-api)

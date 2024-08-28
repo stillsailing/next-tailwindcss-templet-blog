@@ -50,7 +50,7 @@ const MobileNav = () => {
             <div className="fixed inset-0 bg-black/25" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
+          <div className="fixed inset-0 overflow-y-auto backdrop-blur-sm">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
@@ -61,8 +61,8 @@ const MobileNav = () => {
                 leaveFrom="translate-x-0 opacity-95"
                 leaveTo="translate-x-full opacity-0"
               >
-                <Dialog.Panel className="fixed left-0 top-0 z-10 h-full w-full bg-white opacity-95 duration-300 dark:bg-gray-950 dark:opacity-[0.98]">
-                  <nav className="fixed mt-8 h-full text-left">
+                <Dialog.Panel className="fixed left-0 top-0 z-10 h-full w-full bg-white bg-opacity-75 duration-300 dark:bg-gray-950 dark:bg-opacity-80">
+                  <nav className="fixed mt-16 h-full text-start">
                     {headerNavLinks.map((link) => (
                       <div key={link.title} className="px-12 py-4">
                         <Link

@@ -1,7 +1,7 @@
 import 'css/post-layout.css'
 import { ReactNode } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog, Authors } from 'contentlayer/generated'
+import type { Blog, Author } from 'contentlayer/generated'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
@@ -20,7 +20,7 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 
 interface LayoutProps {
   content: CoreContent<Blog>
-  authorDetails: CoreContent<Authors>[]
+  authorDetails: CoreContent<Author>[]
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
   children: ReactNode
@@ -57,7 +57,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
             <div className="divide-gray-200 dark:divide-gray-700 max-xl:divide-y xl:pb-0">
               {content.toc.length > 0 && (
                 <div className="top-20 overflow-visible max-2xl:py-4 2xl:sticky">
-                  <div className="2xl:absolute 2xl:-left-72 2xl:w-64">
+                  <div className="rounded bg-gray-100 p-4 2xl:absolute 2xl:-left-72 2xl:w-64 2xl:shadow">
                     <h2 className="mb-2 text-xs tracking-wide text-gray-500 dark:text-gray-400">
                       目录
                     </h2>
