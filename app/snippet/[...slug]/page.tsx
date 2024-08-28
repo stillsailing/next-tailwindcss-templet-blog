@@ -5,7 +5,7 @@ import { components } from '@/components/MDXComponents'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { sortPosts, coreContent, allCoreContent } from 'pliny/utils/contentlayer'
 import { allSnippets, allAuthors } from 'contentlayer/generated'
-import type { Authors, Snippet } from 'contentlayer/generated'
+import type { Author, Snippet } from 'contentlayer/generated'
 import SnippetLayout from '@/layouts/SnippetLayout'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
@@ -21,7 +21,7 @@ export async function generateMetadata({
   const authorList = post?.authors || ['default']
   const authorDetails = authorList.map((author) => {
     const authorResults = allAuthors.find((p) => p.slug === author)
-    return coreContent(authorResults as Authors)
+    return coreContent(authorResults as Author)
   })
   if (!post) {
     return
@@ -83,7 +83,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   const authorList = post?.authors || ['default']
   const authorDetails = authorList.map((author) => {
     const authorResults = allAuthors.find((p) => p.slug === author)
-    return coreContent(authorResults as Authors)
+    return coreContent(authorResults as Author)
   })
   const mainContent = coreContent(post)
   const jsonLd = post.structuredData

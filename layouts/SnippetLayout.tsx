@@ -1,7 +1,7 @@
 import 'css/post-layout.css'
 import { ReactNode } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Authors, Snippet } from 'contentlayer/generated'
+import type { Author, Snippet } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
@@ -18,7 +18,7 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 
 interface LayoutProps {
   content: CoreContent<Snippet>
-  authorDetails: CoreContent<Authors>[]
+  authorDetails: CoreContent<Author>[]
   children: ReactNode
 }
 
