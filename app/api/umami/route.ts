@@ -1,22 +1,30 @@
 import siteMetadata from '@/data/siteMetadata'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 async function handler(req: NextRequest) {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => {
+    controller.abort()
+  }, 10000) // 设置10秒超时
+
   const searchs = new URLSearchParams(req.url)
   const websiteId = siteMetadata.analytics?.umamiAnalytics?.umamiWebsiteId
   const token = process.env.UMAMI_API_KEY
-  let endpoint = `https://api.umami.is/api/websites/${websiteId}/metrics?type=pageviews`
+  let endpoint = `https://cloud.umami.is/api/websites/${websiteId}/pageviews?startAt=0`
+
+  console.log('searchs.get(path)', req.url, searchs.get('path'))
 
   const params = {
-    startAt: 0,
     endAt: Date.now(),
-    unit: 'month',
-    url: searchs.get('path'),
+    unit: 'year',
+    url: '/blog/service-worker',
   }
 
   Object.keys(params).forEach((key) => {
     endpoint += `&${key}=${params[key]}`
   })
+
+  console.log(endpoint)
 
   let visitCount = 0
 
@@ -27,7 +35,11 @@ async function handler(req: NextRequest) {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
+      signal: controller.signal,
     })
+    clearTimeout(timeout)
+
+    console.log(await response.json())
 
     if (!response.ok) {
       throw new Error('Network response was not ok')
@@ -39,7 +51,7 @@ async function handler(req: NextRequest) {
     console.error('Error fetching visit count:', error)
   }
 
-  return visitCount
+  return new NextResponse(`${visitCount}`)
 }
 
 export { handler as GET }

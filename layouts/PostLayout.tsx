@@ -10,6 +10,7 @@ import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import TOCInline from 'pliny/ui/TOCInline'
 import ScrollProcess from '@/components/ScrollProcess'
+import Views from '@/components/UmamiViews'
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -46,6 +47,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                   {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
                 </time>
                 <span>🕒 {readingTime.text}</span>
+                <Views path={`/${path}`} />
               </div>
             </div>
           </header>
