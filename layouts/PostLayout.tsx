@@ -45,6 +45,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                 <time dateTime={date}>
                   {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
                 </time>
+                <span>🕒 {readingTime.text}</span>
               </div>
             </div>
           </header>

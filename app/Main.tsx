@@ -5,6 +5,7 @@ import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { Blog } from 'contentlayer/generated'
+import Image from 'next/image'
 
 const MAX_DISPLAY = 3
 
@@ -28,18 +29,20 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
-          {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags } = post
+          {posts.slice(-MAX_DISPLAY).map((post) => {
+            const { slug, date, title, summary, tags, images } = post
             return (
               <li key={slug} className="py-12">
                 <article>
-                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                    <dl>
-                      <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                      </dd>
-                    </dl>
+                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-center xl:space-y-0">
+                    {images?.length > 0 && (
+                      <Image
+                        src={images[0]}
+                        height={100}
+                        width={200}
+                        alt={`「${title}」's banner`}
+                      />
+                    )}
                     <div className="space-y-5 xl:col-span-3">
                       <div className="space-y-6">
                         <div>
@@ -52,6 +55,12 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                               {title}
                             </Link>
                           </h2>
+                          <dl className="mt-2">
+                            <dt className="sr-only">Published on</dt>
+                            <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                              <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                            </dd>
+                          </dl>
                           <div className="flex flex-wrap">
                             {tags.map((tag) => (
                               <Tag key={tag} text={tag} />
