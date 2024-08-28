@@ -31,7 +31,7 @@ const ubuntu = Ubuntu({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-ubuntu',
-  weight: ['400', '500'],
+  weight: ['300', '400'],
 })
 
 const ubuntu_mono = Ubuntu_Mono({

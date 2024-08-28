@@ -57,7 +57,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
             <div className="divide-gray-200 dark:divide-gray-700 max-xl:divide-y xl:pb-0">
               {content.toc.length > 0 && (
                 <div className="top-20 overflow-visible max-2xl:py-4 2xl:sticky">
-                  <div className="rounded bg-gray-100 p-4 2xl:absolute 2xl:-left-72 2xl:w-64 2xl:shadow">
+                  <div className="rounded bg-gray-50 p-4 dark:bg-gray-900/70 dark:shadow-gray-800/40 2xl:absolute 2xl:-left-72 2xl:w-64 2xl:shadow-md">
                     <h2 className="mb-2 text-xs tracking-wide text-gray-500 dark:text-gray-400">
                       目录
                     </h2>

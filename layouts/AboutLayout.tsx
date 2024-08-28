@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
-import type { Authors } from 'contentlayer/generated'
+import type { Author } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
 
 interface Props {
   children: ReactNode
-  content: Omit<Authors, '_id' | '_raw' | 'body'>
+  content: Omit<Author, '_id' | '_raw' | 'body'>
 }
 
 export default function AboutLayout({ children, content }: Props) {
@@ -23,7 +23,7 @@ export default function AboutLayout({ children, content }: Props) {
           <div className="flex flex-col items-center space-x-2 pt-8">
             {avatar && (
               <div className="avatar">
-                <div className="mask mask-hexagon w-32 bg-primary-100 p-5 dark:bg-primary-900">
+                <div className="mask mask-hexagon w-32 bg-primary-100 p-5  dark:bg-primary-900">
                   <Image
                     src={avatar}
                     alt="avatar"
