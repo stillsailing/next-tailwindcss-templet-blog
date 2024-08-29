@@ -47,7 +47,7 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                         />
                       </div>
                     )}
-                    <div className="flex-1 space-y-4 p-6 pl-4">
+                    <div className="flex-1 space-y-2 p-6 pl-4">
                       <div className="space-y-2">
                         <div>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
@@ -59,13 +59,13 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                               {title}
                             </Link>
                           </h2>
-                          <dl className="mt-2">
+                          <dl className="ml-2 mt-2">
                             <dt className="sr-only">Published on</dt>
                             <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                               <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
                             </dd>
                           </dl>
-                          <div className="flex flex-wrap">
+                          <div className="ml-2 flex flex-wrap">
                             {tags.map((tag) => (
                               <Tag key={tag} text={tag} />
                             ))}
@@ -75,7 +75,7 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                           {summary}
                         </div>
                       </div>
-                      <div className="text-base font-medium leading-6">
+                      <div className="text-right text-base font-medium leading-6">
                         <Link
                           href={`/blog/${slug}`}
                           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
