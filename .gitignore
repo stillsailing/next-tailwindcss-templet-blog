@@ -48,3 +48,6 @@ yarn-error.log*
 
 # workerbox
 /public/service_worker.js
+
+# mock
+/mock/*
