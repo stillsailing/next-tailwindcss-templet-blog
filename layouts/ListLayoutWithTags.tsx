@@ -40,6 +40,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           <Link
             href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
             rel="prev"
+            className="transition-colors hover:text-primary-500"
           >
             Previous
           </Link>
@@ -53,7 +54,11 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           </button>
         )}
         {nextPage && (
-          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
+          <Link
+            href={`/${basePath}/page/${currentPage + 1}`}
+            rel="next"
+            className="transition-colors hover:text-primary-500"
+          >
             Next
           </Link>
         )}
@@ -124,7 +129,10 @@ export default function ListLayoutWithTags({
               {displayPosts.map((post) => {
                 const { path, date, title, summary, tags } = post
                 return (
-                  <li key={path} className="py-5">
+                  <li
+                    key={path}
+                    className="my-4 overflow-hidden rounded-md p-4 transition-shadow duration-200 hover:bg-gray-100 hover:shadow-md dark:hover:bg-gray-900/70"
+                  >
                     <article className="flex flex-col space-y-2 xl:space-y-0">
                       <dl>
                         <dt className="sr-only">Published on</dt>

@@ -13,11 +13,9 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="pb-8">
-          <h2 className="bg-gradient-to-r from-primary-400 to-red-500 bg-clip-text text-3xl font-bold text-transparent">
-            Welcome! My Friends!
-          </h2>
-          <div>Keep The Passion For Creating!</div>
+        <div className="bg-gradient-to-r from-primary-400 to-red-500 bg-clip-text pb-8  font-bold text-transparent">
+          <h2 className="text-3xl">Welcome! My Friends!</h2>
+          <h3 className="text-xl">Keep The Passion For Creating.</h3>
         </div>
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-12">
@@ -27,24 +25,30 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
             {siteMetadata.description}
           </p>
         </div>
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+        <ul className="divide-gray-200 py-2 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
             const { slug, date, title, summary, tags, images } = post
             return (
-              <li key={slug} className="py-12">
+              <li
+                key={slug}
+                className="my-4 overflow-hidden rounded-md border transition-shadow duration-200 hover:shadow-md"
+              >
                 <article>
-                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-center xl:space-y-0">
+                  <div className="space-y-2 lg:flex lg:items-center">
                     {images?.length > 0 && (
-                      <Image
-                        src={images[0]}
-                        height={100}
-                        width={200}
-                        alt={`「${title}」's banner`}
-                      />
+                      <div className="aspect-square max-w-72 max-lg:hidden">
+                        <Image
+                          className="h-full w-full object-cover"
+                          src={images[0]}
+                          height={1978}
+                          width={3450}
+                          alt={`「${title}」's banner`}
+                        />
+                      </div>
                     )}
-                    <div className="space-y-5 xl:col-span-3">
-                      <div className="space-y-6">
+                    <div className="flex-1 space-y-4 p-6 pl-4">
+                      <div className="space-y-2">
                         <div>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
                             <Link
