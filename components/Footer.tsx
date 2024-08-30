@@ -1,6 +1,6 @@
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
-import { Vercel } from '@/components/social-icons/icons'
+import { Vercel } from '@/components/icons'
 
 export default function Footer() {
   return (

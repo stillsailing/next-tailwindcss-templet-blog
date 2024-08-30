@@ -1,7 +1,6 @@
-import { SVGProps } from 'react'
+// https://simpleicons.org/
 
-// Icons taken from: https://simpleicons.org/
-// To add a new icon, add a new function here and add it to components in social-icons/index.tsx
+import { SVGProps } from 'react'
 
 export function Facebook(svgProps: SVGProps<SVGSVGElement>) {
   return (

@@ -9,7 +9,7 @@ import {
   Mastodon,
   Threads,
   Instagram,
-} from './icons'
+} from '.'
 
 const components = {
   mail: Mail,
