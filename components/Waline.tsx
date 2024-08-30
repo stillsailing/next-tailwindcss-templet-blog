@@ -9,6 +9,7 @@ import { init } from '@waline/client'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import '@waline/client/style'
+import '@/css/waline.css'
 
 const Waline = ({ server }: WalineConfig['walineConfig']) => {
   const path = usePathname()

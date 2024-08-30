@@ -29,6 +29,7 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
             const { slug, date, title, summary, tags, images } = post
+            const displayImage = images?.length > 0 && images[0]
             return (
               <li
                 key={slug}
@@ -36,11 +37,11 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
               >
                 <article>
                   <div className="space-y-2 lg:flex lg:items-center">
-                    {images?.length > 0 && (
+                    {displayImage && (
                       <div className="aspect-square max-w-72 max-lg:hidden">
                         <Image
                           className="h-full w-full object-cover"
-                          src={images[0]}
+                          src={displayImage}
                           height={1978}
                           width={3450}
                           alt={`「${title}」's banner`}

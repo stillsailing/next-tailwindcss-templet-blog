@@ -19,7 +19,7 @@ const Views = ({ path }) => {
     return null
   }
 
-  return <div>{views} views</div>
+  return <div>{views} Views.</div>
 }
 
 export default Views

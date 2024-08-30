@@ -9,8 +9,10 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import TOCInline from 'pliny/ui/TOCInline'
+import Bleed from 'pliny/ui/Bleed'
 import ScrollProcess from '@/components/ScrollProcess'
 import Views from '@/components/UmamiViews'
+import Image from '@/components/Image'
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -28,8 +30,9 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
-  const { path, date, lastUpdateDate, title, tags, readingTime } = content
+  const { path, date, lastUpdateDate, title, tags, images } = content
   const basePath = path.split('/')[0]
+  const displayImage = images?.length > 0 && images[0]
 
   return (
     <SectionContainer>
@@ -38,17 +41,27 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="py-6">
-            <div className="text-center">
+            <div className="space-y-4 text-center">
+              {displayImage && (
+                <div className="w-full">
+                  <Bleed>
+                    <div className="relative aspect-[2/1] w-full overflow-hidden rounded border shadow">
+                      <Image src={displayImage} alt={title} fill className="object-cover" />
+                    </div>
+                  </Bleed>
+                </div>
+              )}
               <div>
                 <PageTitle viewTransitionName={title}>{title}</PageTitle>
               </div>
-              <div className="mt-4 flex items-center justify-center gap-4 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                <time dateTime={date}>
-                  {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
-                </time>
-                <span>🕒 {readingTime.text}</span>
-                <Views path={`/${path}`} />
-              </div>
+              <dl>
+                <dt className="sr-only">发布于</dt>
+                <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                  <time dateTime={date}>
+                    {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
+                  </time>
+                </dd>
+              </dl>
             </div>
           </header>
           <div className="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
@@ -73,10 +86,11 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
           </div>
           {lastUpdateDate && (
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:divide-y-0">
-              <dl className="p-2 text-end">
-                <div>
-                  <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
-                    最后更新于
+              <dl className="flex items-center justify-end gap-4 p-2 text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
+                <Views path={`/${path}`} />
+                <div className="flex items-center justify-end">
+                  <dt className="">最后更新于</dt>
+                  <dd>
                     <time dateTime={lastUpdateDate}>
                       {new Date(lastUpdateDate).toLocaleDateString(
                         siteMetadata.locale,
@@ -101,7 +115,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
                 </div>
               )}
               {(next || prev) && (
-                <div className="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
+                <div className="flex justify-between py-4">
                   {prev && prev.path && (
                     <div>
                       <h2 className="text-xs tracking-wide text-gray-500 dark:text-gray-400">
