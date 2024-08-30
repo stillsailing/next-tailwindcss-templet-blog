@@ -29,7 +29,6 @@ module.exports = {
       colors: {
         primary: colors.indigo,
         gray: colors.gray,
-        white: 'hsl(0deg 0% 99%)',
       },
       typography: ({ theme }) => ({
         DEFAULT: {

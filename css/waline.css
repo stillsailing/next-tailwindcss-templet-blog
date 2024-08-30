@@ -1,3 +1,12 @@
 textarea#wl-edit {
   width: calc(100% - 3em);
+  background: var(--waline-bg-color-light);
+}
+
+.wl-panel {
+  @apply rounded
+}
+
+input.wl-input {
+  font-size: .75em;
 }

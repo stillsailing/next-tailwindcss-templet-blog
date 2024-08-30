@@ -1,9 +1,9 @@
 /** @type {import('./data').SiteMetadataConfig} */
 const siteMetadata = {
-  title: 'Chenyh Blog',
-  author: 'chenyh',
+  title: 'chenyh',
+  author: 'chenyh.site@gmail.com',
   headerTitle: 'chenyh.site',
-  description: '',
+  description: '一个菜鸟程序员的个人网站',
   language: 'zh-CN',
   theme: 'system', // system, dark or light
   siteUrl: 'https://chenyh.site',
