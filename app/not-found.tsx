@@ -9,12 +9,12 @@ export default function NotFound() {
         </h1>
       </div>
       <div className="max-w-md">
-        <p className="mb-4 text-xl font-bold leading-normal md:text-2xl">抱歉，没有找到此页面</p>
+        <p className="mb-4 text-xl font-bold leading-normal md:text-2xl">Not Found</p>
         <Link
           href="/"
           className="focus:shadow-outline-blue inline rounded-lg border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-primary-700 focus:outline-none dark:bg-primary-700 dark:hover:bg-primary-600"
         >
-          返回主页
+          返回
         </Link>
       </div>
     </div>

@@ -22,7 +22,12 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        sans: ['var(--font-ubuntu)', 'var(--font-space-grotesk)', ...fontFamily.sans],
+        sans: [
+          // 'var(--font-lxgw)',
+          'var(--font-ubuntu)',
+          'var(--font-space-grotesk)',
+          ...fontFamily.sans,
+        ],
         mono: ['var(--font-ubuntu-mono)', ...fontFamily.mono],
         shade: ['var(--font-bungee-shade)'],
       },

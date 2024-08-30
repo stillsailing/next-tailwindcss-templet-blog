@@ -5,9 +5,8 @@ import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { Blog } from 'contentlayer/generated'
-import Image from 'next/image'
 
-const MAX_DISPLAY = 3
+const MAX_DISPLAY = 4
 
 export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
   return (
@@ -18,73 +17,40 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
           <h3 className="text-xl">Keep The Passion For Creating.</h3>
         </div>
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-12">
+          <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-12">
             最近更新
           </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p>
         </div>
-        <ul className="divide-gray-200 py-2 dark:divide-gray-700">
+        <ul className="divide-y divide-gray-200 py-2 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags, images } = post
-            const displayImage = images?.length > 0 && images[0]
+            const { slug, date, title, summary, tags } = post
             return (
-              <li
-                key={slug}
-                className="my-4 overflow-hidden rounded-md border transition-shadow duration-200 hover:shadow-md"
-              >
-                <article>
-                  <div className="space-y-2 lg:flex lg:items-center">
-                    {displayImage && (
-                      <div className="aspect-square max-w-72 max-lg:hidden">
-                        <Image
-                          className="h-full w-full object-cover"
-                          src={displayImage}
-                          height={1978}
-                          width={3450}
-                          alt={`「${title}」's banner`}
-                        />
-                      </div>
-                    )}
-                    <div className="flex-1 space-y-2 p-6 pl-4">
-                      <div className="space-y-2">
-                        <div>
-                          <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                            <Link
-                              href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
-                              viewTransitionName={title}
-                            >
-                              {title}
-                            </Link>
-                          </h2>
-                          <dl className="ml-2 mt-2">
-                            <dt className="sr-only">Published on</dt>
-                            <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                              <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                            </dd>
-                          </dl>
-                          <div className="ml-2 flex flex-wrap">
-                            {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
-                            ))}
-                          </div>
-                        </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
-                        </div>
-                      </div>
-                      <div className="text-right text-base font-medium leading-6">
-                        <Link
-                          href={`/blog/${slug}`}
-                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                          aria-label={`阅读全文: "${title}"`}
-                        >
-                          阅读全文 &rarr;
-                        </Link>
-                      </div>
+              <li key={slug} className="py-4">
+                <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
+                  <dl>
+                    <dt className="sr-only">Published on</dt>
+                    <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                    </dd>
+                  </dl>
+                  <div className="space-y-2 xl:col-span-3">
+                    <h2 className="text-2xl font-bold leading-8 tracking-tight">
+                      <Link
+                        href={`/blog/${slug}`}
+                        className="text-gray-900 transition hover:text-primary-500 dark:text-gray-100"
+                        viewTransitionName={title}
+                      >
+                        {title}
+                      </Link>
+                    </h2>
+                    <div className="flex flex-wrap">
+                      {tags.map((tag) => (
+                        <Tag key={tag} text={tag} />
+                      ))}
+                    </div>
+                    <div className="prose max-w-none text-gray-500 dark:text-gray-400">
+                      {summary}
                     </div>
                   </div>
                 </article>
@@ -94,13 +60,13 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
         </ul>
       </div>
       {posts.length > MAX_DISPLAY && (
-        <div className="flex justify-end text-base font-medium leading-6">
+        <div className="flex justify-center text-base font-medium leading-6">
           <Link
             href="/blog"
             className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="所有 Blog"
+            aria-label="查看全部"
           >
-            所有 Blog &rarr;
+            查看全部
           </Link>
         </div>
       )}

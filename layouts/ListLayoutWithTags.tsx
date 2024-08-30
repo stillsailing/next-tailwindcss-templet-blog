@@ -89,7 +89,7 @@ export default function ListLayoutWithTags({
           </h1>
         </div>
         <div className="flex sm:space-x-24">
-          <div className="hidden h-full max-h-screen min-w-[240px] max-w-[240px] flex-wrap overflow-auto rounded bg-gray-50 pt-5 shadow-md dark:bg-gray-900/70 dark:shadow-gray-800/40 sm:flex">
+          <div className="hidden h-full max-h-screen min-w-[240px] max-w-[240px] flex-wrap overflow-auto rounded bg-gray-50 pt-5 dark:bg-gray-900/70 dark:shadow-gray-800/40 sm:flex">
             <div className="px-6 py-4">
               {pathname.startsWith('/blog') ? (
                 <h3 className="font-bold uppercase text-primary-500">All Posts</h3>
@@ -131,7 +131,7 @@ export default function ListLayoutWithTags({
                 return (
                   <li
                     key={path}
-                    className="my-4 overflow-hidden rounded-md p-4 transition-shadow duration-200 hover:bg-gray-100 hover:shadow-md dark:hover:bg-gray-900/70"
+                    className="my-4 overflow-hidden rounded-md p-4 transition-shadow duration-200"
                   >
                     <article className="flex flex-col space-y-2 xl:space-y-0">
                       <dl>

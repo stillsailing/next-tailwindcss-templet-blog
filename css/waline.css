@@ -1,5 +1,5 @@
 textarea#wl-edit {
-  width: calc(100% - 3em);
+  width: calc(100% - 2.75em);
   background: var(--waline-bg-color-light);
 }
 

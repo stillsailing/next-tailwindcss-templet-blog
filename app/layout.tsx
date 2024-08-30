@@ -5,6 +5,7 @@ import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
 import { Space_Grotesk, Ubuntu, Ubuntu_Mono, Bungee_Shade } from 'next/font/google'
+import LocalFont from 'next/font/local'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
@@ -47,6 +48,13 @@ const bungee_shade = Bungee_Shade({
   variable: '--font-bungee-shade',
   weight: '400',
 })
+
+// const lxgw = LocalFont({
+//   src: '../font/LXGWWenKaiLite-Regular.ttf',
+//   weight: '500',
+//   display: 'swap',
+//   variable: '--font-lxgw',
+// })
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
