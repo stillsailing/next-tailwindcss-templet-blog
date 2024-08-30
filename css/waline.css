@@ -1,3 +1,8 @@
+:root {
+  --waline-theme-color: #6366f1;
+  --waline-active-color: #818cf8;
+}
+
 textarea#wl-edit {
   width: calc(100% - 2.75em);
   background: var(--waline-bg-color-light);

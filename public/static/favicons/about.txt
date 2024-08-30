@@ -1,8 +1,8 @@
 This favicon was generated using the following font:
 
-- Font Title: Bungee Shade
+- Font Title: Bungee
 - Font Author: Copyright 2023 The Bungee Project Authors (https://github.com/djrrb/Bungee)
-- Font Source: https://fonts.gstatic.com/s/bungeeshade/v14/DtVkJxarWL0t2KdzK3oI_jks7iLSrwFUlw.ttf
+- Font Source: https://fonts.gstatic.com/s/bungee/v14/N0bU2SZBIuF2PU_ECn50Kd_PmA.ttf
 - Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
 
 generated from https://favicon.io/favicon-generator
