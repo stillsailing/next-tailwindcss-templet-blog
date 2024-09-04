@@ -12,3 +12,9 @@ README.md
 !.next/standalone
 
 .git
+
+.DS_Store
+
+mock
+.husky
+.vscode
