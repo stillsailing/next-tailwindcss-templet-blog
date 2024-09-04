@@ -3,11 +3,59 @@ title: NextJS 应用使用 docker 自托管部署
 date: '2024-09-03'
 tags: ['nextjs', 'javascript', 'docker']
 draft: true
-summary: 摆脱推荐算法，简化你的信息获取方式，如何用 RSS 订阅一切，网站、博客、社交平台...
 ---
 
 Vercel 用起来是真方便，免运维 + github 提交自动触发 CI/CD，确实太香了，但国内直接被墙了没办法呀，
-只好自己买个云服务器托管了，第一想法就是 docker 部署了，原来的模板代码[^1]是没有集成 docker 构建的，因此自己找文档加上了
+只好自己买个云服务器托管了，第一想法就是 docker 部署了，原来的模板代码[^1]是没有集成 docker 构建的，因此自己找到了官方提供的[示例](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile)，
+试用发现跑不起来，然后手动改了一点
+
+```Dockerfile:Dockerfile
+FROM node:18-alpine AS base
+
+# Rebuild the source code only when needed
+FROM base AS builder
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+COPY . .
+RUN yarn install && yarn run build
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+# Uncomment the following line in case you want to disable telemetry during runtime.
+# ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/next-config-js/output
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
+```
+
+目前在服务器上拉完代码后构建镜像然后应用跑在 docker 里，再用 nginx 反向代理到网站，整个流程在 1panel 里操作还是非常方便的，后面考虑 jenkins 自动化了
 
 
 [^1]: [模版 tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog)
