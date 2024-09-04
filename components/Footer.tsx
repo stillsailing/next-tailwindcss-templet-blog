@@ -1,11 +1,9 @@
-import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
-import { Vercel } from '@/components/icons'
 
 export default function Footer() {
   return (
     <>
-      <footer className="mt-12 border-t pt-4">
+      <footer className="mt-12 border-t pb-4 pt-4">
         <div className="flex flex-col items-center text-sm text-gray-500 dark:text-gray-400">
           <div className="mb-2 flex gap-1">
             <svg
@@ -52,13 +50,6 @@ export default function Footer() {
             >
               Email Me
             </a>
-          </div>
-          <div className="mb-6 flex gap-2 text-xs">
-            Powered By
-            <Link href="https://vercel.com" className="flex items-center gap-1 ">
-              <Vercel className="h-3 w-3 fill-current" />
-              <text className="text-primary-500 underline-offset-2 hover:underline">Vercel</text>
-            </Link>
           </div>
         </div>
       </footer>
