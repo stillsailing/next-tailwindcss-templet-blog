@@ -1,0 +1,41 @@
+---
+title: 如何使用 markdown 直接生成静态网页
+date: '2024-09-10'
+tags: ['nextjs', 'contentlayer']
+draft: true
+summary: observable-duck：Redux 与 RxJS 的组合
+---
+
+## 预渲染
+
+在 SPA 中，只有一个 html 文件，其中仅有业务逻辑，没有实际性内容。需要再请求 JS 后执行逻辑、拉取请求数据渲染，称为 CSR (Client Side Rendering 客户端渲染)。
+但 CSR 有两个很关键的缺点：
+
+- 首屏渲染慢，在 JS 加载完成前页面持续白屏
+- SEO 不友好
+
+这两个缺点导致了 SPA 的应用场景很有限。
+
+而相对的就是 SSR (Server Side Rendering 服务端渲染)，服务端在收到浏览器的加载请求后，直接组装好 html 文件返回给浏览器，浏览器直接渲染即可。
+像 React 这种 UI 库就直接提供了 `renderToString` 可以将组件 SSR 成字符串，下面就是一个极简例子：
+
+```js:server.js
+import express from 'express';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import App from '../components/App';
+
+const app = express()
+
+app.get('*', (req, res) => {
+  const appString = renderToString(<App />)
+  const html = `<div id="root">${appString}</div>`
+  res.send(html)
+})
+
+app.listen(process.env.PORT)
+```
+
+但这样服务端需要承载页面的实时渲染更新响应，增大了服务器压力和运维成本。而且对于博客这种内容更新不频繁的网站，使用 SSR 每次渲染的结果都相同无疑是一种巨大的资源浪费。
+因此就可以考虑将页面的渲染阶段提前到应用的构建阶段，预渲染好页面，后面收到请求时就可以直接响应。也就是 SSG (Static Site Generation 静态站点生成)。
+
