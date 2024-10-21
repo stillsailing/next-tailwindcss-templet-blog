@@ -41,9 +41,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="py-6">
-            <div className="space-y-4 text-center">
+            <div className="text-center">
               {displayImage && (
-                <div className="w-full">
+                <div className="mb-12 w-full">
                   <Bleed>
                     <div className="relative aspect-[2/1] w-full overflow-hidden rounded border shadow">
                       <Image src={displayImage} alt={title} fill className="object-cover" />
@@ -54,7 +54,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
               <div>
                 <PageTitle viewTransitionName={title}>{title}</PageTitle>
               </div>
-              <dl>
+              <dl className="mt-2">
                 <dt className="sr-only">发布于</dt>
                 <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                   <time dateTime={date}>
