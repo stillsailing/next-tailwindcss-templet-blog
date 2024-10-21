@@ -2,7 +2,7 @@
 title: NextJS 应用使用 docker 自托管部署
 date: '2024-09-03'
 tags: ['nextjs', 'javascript', 'docker']
-draft: true
+draft: false
 ---
 
 Vercel 用起来是真方便，免运维 + github 提交自动触发 CI/CD，确实太香了，但国内直接被墙了没办法呀，
@@ -56,6 +56,5 @@ CMD ["node", "server.js"]
 ```
 
 目前在服务器上拉完代码后构建镜像然后应用跑在 docker 里，再用 nginx 反向代理到网站，整个流程在 1panel 里操作还是非常方便的，后面考虑 jenkins 自动化了
-
 
 [^1]: [模版 tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog)

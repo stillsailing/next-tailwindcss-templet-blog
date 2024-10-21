@@ -13,8 +13,8 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="bg-gradient-to-r from-primary-400 to-red-500 bg-clip-text pb-8  font-bold text-transparent">
-          <h2 className="text-3xl">Welcome! My Friends!</h2>
-          <h3 className="text-xl">Keep The Passion For Creating.</h3>
+          <h2 className="text-3xl">Welcome!</h2>
+          <h3 className="text-2xl">Keep The Passion For Creating.</h3>
         </div>
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-12">
