@@ -1,11 +1,92 @@
 ---
-title: 怎么开发一个浏览器插件
+title: 了解和开发一个浏览器插件
 date: '2024-10-21'
 tags: ['browser', 'chrome', 'extension']
 draft: false
-summary: 如何开发一个浏览器插件，实现各种功能...
+summary: 认识什么是浏览器插件以及如何开发一个浏览器插件，实现各种功能...
 ---
 
-如果你还未使用过浏览器插件，可以打开 [Chrome 浏览器插件商店](https://chromewebstore.google.com/category/extensions)看看
+如果您还未使用过浏览器插件，可以打开 [Chrome 浏览器插件商店](https://chromewebstore.google.com/category/extensions) 看看
 
 ![Chrome 浏览器插件商店](/static/images/mdx/chrome-extension.png)
+
+和以往所见到的插件系统的定义相同，浏览器插件也是用来增强浏览器的功能，正如上图中的副标题：“让浏览器如虎添翼”
+
+而根据具体需要可以选择不同的插件增强不同功能，同样见上图下半部分的“热门分类”
+
+不妨选择下载试用下几个插件（仅举例，可自由选择试用）
+
+1. [DeepL：人工智能翻译器和写作助手](https://chromewebstore.google.com/detail/deepl%EF%BC%9A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%BF%BB%E8%AF%91%E5%99%A8%E5%92%8C%E5%86%99%E4%BD%9C%E5%8A%A9%E6%89%8B/cofdbpoegempjloogbagkncekinflcnj) 划词翻译，无需再复制到翻译软件中粘贴查看译文
+2. [Popup my Bookmarks](https://chromewebstore.google.com/detail/popup-my-bookmarks/mppflflkbbafeopeoeigkbbdjdbeifni) 书签管理，个人习惯不展示浏览器书签栏，点击插件图标即展开书签
+3. [Text Blaze: Templates and Snippets](https://chromewebstore.google.com/detail/text-blaze-templates-and/idgadaccgipmpannjkmfddolnnhmeklj) 输入框补全，可以预设常用片段，比如邮件、账号、密码等，浏览器中的输入场景就可以一键补全
+
+还有各种场景可以解锁，熟练使用各种插件绝对可以提升你的工作学习效率
+
+## 插件都可以做什么
+
+1. 增强 Tab 页，新增或删除内容，比如 [DeepL](https://chromewebstore.google.com/detail/deepl%EF%BC%9A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%BF%BB%E8%AF%91%E5%99%A8%E5%92%8C%E5%86%99%E4%BD%9C%E5%8A%A9%E6%89%8B/cofdbpoegempjloogbagkncekinflcnj) 可以划词就地翻译展示，弹出窗口并不是当前访问页面所构建的，而是由插件创建并插入进当前页面的
+2. 增强设置操作按钮，每个插件都会展示在右上部分，您可以设置其收起或展开展示插件图标，点击图标时会展示插件提供的 popup 弹出窗口，比如 [天气 - Weather](https://chromewebstore.google.com/detail/%E5%A4%A9%E6%B0%94-weather/ibieofighcnndjcjchdahdiacjpmkhgf) 直接图标展示今日天气，点击展开弹出窗口查看更多信息
+3. 增强右键工具栏，访问任何页面都可以右键操作浏览器，可以在此新增快捷操作
+4. 增强打开新标签页，可以替换浏览器打开新标签页，自定义任何内容，比如 [Clear New Tab](https://chromewebstore.google.com/detail/clear-new-tab/felphkbfjadmcejnibcmcncimlappdde) 可以替换默认新标签页，替换为一个简洁的空白页
+5. 增强开发者工具，比如 [Redux DevTools](https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd) 可以查看 Redux 状态树
+
+## 如何开发[^1]
+
+[^1]: [Chrome Extensions](https://developer.chrome.com/docs/extensions)
+
+首先一个插件目录包括 [manifest.json](https://developer.chrome.com/docs/extensions/reference/manifest) 配置文件，以下是一个最小清单内容：
+
+```json:manifest.json
+{
+  "manifest_version": 3,
+  "name": "Extension Name",
+  "description": "Extension Description",
+  "version": "1.0.0",
+  "icons": {
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+}
+```
+
+### popup 弹出窗口
+
+在 manifest.json 新增 action 配置，并在插件目录中提供 popup.html，就是一个简单常规的 HTML 页面
+
+```json:manifest.json
+{
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
+```
+
+在点击图标时即可弹出窗口展示 popup.html 内容
+
+查看天气插件 [天气 - Weather](https://chromewebstore.google.com/detail/%E5%A4%A9%E6%B0%94-weather/ibieofighcnndjcjchdahdiacjpmkhgf) 的 popup 弹出窗口
+
+### Service Worker 后台脚本
+
+和 Web 应用一样，插件也支持注册 Service Worker 后台脚本
+
+```json:manifest.json
+{
+  "background": {
+    "service_worker": "service-worker.js"
+  }
+}
+```
+
+#### 调试
+
+#### 通信
+
+## 使用开发框架简化开发流程
+
+### plasmo
+
+https://www.plasmo.com/
+
+### wxt
+
+https://wxt.dev/
