@@ -32,7 +32,7 @@ summary: 认识什么是浏览器插件以及如何开发一个浏览器插件�
 
 ## 如何开发[^1]
 
-[^1]: [Chrome Extensions](https://developer.chrome.com/docs/extensions)
+[^1]: [欢迎使用扩展程序！](https://developer.chrome.com/docs/extensions)
 
 首先一个插件目录包括 [manifest.json](https://developer.chrome.com/docs/extensions/reference/manifest) 配置文件，以下是一个最小清单内容：
 
@@ -61,7 +61,11 @@ summary: 认识什么是浏览器插件以及如何开发一个浏览器插件�
 
 ![popup.html](/static/images/mdx/extension/popup.png)
 
-### Service Worker 后台脚本
+### Service Worker 后台脚本[^2]
+
+[^2]: [扩展程序 Service Worker 简介](https://developer.chrome.com/docs/extensions/develop/concepts/service-workers)
+
+本文不做详细 API 介绍，详情请参见[文档](https://developer.chrome.com/docs/extensions/develop/concepts/service-workers)
 
 试想一个场景，我进入了一个阅读网站，但我只想在当前页面阅读 15 分钟，不想在此耗费太多时间，我点开右上角的定时器插件，希望在此页面阅读停留 15 分钟后闹铃提示我。
 注意不是定时 15 分钟，而是在当前页面阅读满 15 分钟，不然为什么不直接使用闹钟呢？🤣
@@ -97,31 +101,148 @@ setInterval(function () {
 
 #### 如何通信
 
-然后下一个需要解决的问题就是如何通信？
+然后下一个需要解决的问题就是如何通信？需要将定时器信息从 popup 窗口传递到 Service Worker 脚本中
 
-chrome 提供了两个 API 来实现各个页面之间的通信：`chrome.runtime.sendMessage` 和 `chrome.runtime.onMessage`
+chrome 提供了两个 API 来实现各个组件之间的通信：`chrome.runtime.sendMessage` 和 `chrome.runtime.onMessage`，推荐安装 `@types/chrome` 获得完整的类型定义
 
-```js:sw.js
-console.log("Service Worker Script")
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log(request)
-  sendResponse({
-    msg: "hello from service worker"
+```js:popup.js
+const input = document.querySelector('#input-timer')
+document.querySelector('#btn-set-timer').addEventListener('click', function () {
+  chrome.runtime.sendMessage({
+    type: 'set-timer',
+    payload: {
+      id: 'first-timer',
+      timeout: +input.value,
+    },
   })
 })
 ```
 
-```js:popup.html
-<script>
-setTimeout(function () {
-  chrome.runtime.sendMessage({
-    from: "popup",
-    message: "hello from popup"
-  })
-}, 3000)
-</script>
+```js:sw.js
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.type === 'set-timer') {
+    const { id, timeout } = request.payload
+    setTimeout(() => {
+      console.log(`Timer ${id} has expired after ${timeout} minutes`)
+    }, timeout * 60000)
+  }
+})
 ```
+
+这里仅展示创建定时器的逻辑，取消等逻辑可以自行添加 state 维护，但这里 chrome 出于性能和资源消耗考虑，会在闲时关停 Service Worker 脚本：
+
+1. 无操作 30 秒后。收到事件或调用扩展程序 API 会重置此计时器。
+2. 单个请求（例如事件或 API 调用）的处理用时超过 5 分钟。
+3. 当 fetch() 响应时间超过 30 秒时。
+
+因此更推荐使用 `chrome.alarms` API 来代替 `setTimeout`，首先在 manifest.json 中申请 alarms 权限
+
+```json:manifest.json
+{
+  "permissions": ["alarms"]
+}
+```
+
+然后修改 Service Worker 脚本
+
+```js:sw.js
+chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
+  if (request.type === 'set-timer') {
+    const { id, timeout } = request.payload
+    await chrome.alarms.create(id, { delayInMinutes: timeout })
+  }
+})
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  console.log(`Alarm ${alarm.name} has been triggered`)
+})
+```
+
+### Content Script 内容脚本[^3]
+
+[^3]: [内容脚本](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts)
+
+扩展程序可以插入内容脚本来读取、修改当前所访问网页内容。
+
+首先在 manifest.json 中添加注册，matches 字段可指定特定网址，详情见 [匹配模式](https://developer.chrome.com/docs/extensions/develop/concepts/match-patterns)
+
+```json:manifest.json
+{
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": []
+    }
+  ]
+}
+```
+
+然后在 content.js 中添加内容 `console.log('Content Script')`，内容脚本在当前网页成功执行
+
+![内容脚本成功执行](/static/images/mdx/extension/content-start.png)
+
+#### 动态注册
+
+像上面这样注册内容脚本成为静态脚本，部分场景比如匹配模式未知，比如部分插件提供 “在当前页面不启用” 功能，可以在 Service Worker 中使用 `chrome.scripting` 来动态注册更新内容脚本
+
+```js:sw.js
+chrome.scripting.registerContentScripts([
+  {
+    id: 'session-script',
+    js: ['content.js'],
+    persistAcrossSessions: false,
+    matches: ['*://example.com/*'],
+    runAt: 'document_start',
+  },
+])
+
+// sometime
+chrome.scripting.updateContentScripts([
+  {
+    id: 'session-script',
+    excludeMatches: ['*://sub.example.com/*'], // 额外排除 sub.example.com 页面下的启用
+  },
+])
+```
+
+#### 插入交互
+
+回到上面计时器的例子，现在希望将提示信息直接插入当前浏览的页面中，打断阅读，更明显的进行提示。
+
+现在整个应用的执行流程是
+
+1. 在 popup 弹出窗口中开启闹钟，同步到 Service Worker 后台脚本中
+2. 在 Service Worker 中保存维护闹钟的状态
+3. 在内容脚本中取到闹钟的状态，同时收集有效时间做对比
+4. 当有效时间到达时，内容脚本直接在当前页面插入提示信息
+
+（这里是有更好的流程设计，比如使用 `chrome.storage` API，仅做教程演示使用此流程）
+
+## 案例分享
+
+### 天气预报
+
+后台脚本中获取天气信息，然后通过 `chrome.action.setIcon` 设置图标
+
+```js:sw.js
+chrome.action.setIcon({
+  path: getIconPath(alarm.name),
+});
+```
+
+### 音乐播放器
+
+详情可见[《如何在浏览器扩展程序中创建音乐播放器》](/blog/music-player-in-extension)
+
+1. 在 service_worker 中创建 offsrceen document
+2. 在 offsrceen document 中创建 audio
+3. 使用 `chrome.runtime.onMessage` 通信
+
+### Input Completer
+
+1. 创建 Content Script 插入交互
+2. 由于同源策略，所有请求由插件的 Service Worker 代理
 
 ## 使用开发框架简化开发流程
 
