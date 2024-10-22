@@ -8,7 +8,7 @@ summary: 认识什么是浏览器插件以及如何开发一个浏览器插件�
 
 如果您还未使用过浏览器插件，可以打开 [Chrome 浏览器插件商店](https://chromewebstore.google.com/category/extensions) 看看
 
-![Chrome 浏览器插件商店](/static/images/mdx/chrome-extension.png)
+![Chrome 浏览器插件商店](/static/images/mdx/extension/store.png)
 
 和以往所见到的插件系统的定义相同，浏览器插件也是用来增强浏览器的功能，正如上图中的副标题：“让浏览器如虎添翼”
 
@@ -41,11 +41,7 @@ summary: 认识什么是浏览器插件以及如何开发一个浏览器插件�
   "manifest_version": 3,
   "name": "Extension Name",
   "description": "Extension Description",
-  "version": "1.0.0",
-  "icons": {
-    "48": "images/icon-48.png",
-    "128": "images/icon-128.png"
-  },
+  "version": "1.0.0"
 }
 ```
 
@@ -63,23 +59,69 @@ summary: 认识什么是浏览器插件以及如何开发一个浏览器插件�
 
 在点击图标时即可弹出窗口展示 popup.html 内容
 
-查看天气插件 [天气 - Weather](https://chromewebstore.google.com/detail/%E5%A4%A9%E6%B0%94-weather/ibieofighcnndjcjchdahdiacjpmkhgf) 的 popup 弹出窗口
+![popup.html](/static/images/mdx/extension/popup.png)
 
 ### Service Worker 后台脚本
 
-和 Web 应用一样，插件也支持注册 Service Worker 后台脚本
+试想一个场景，我进入了一个阅读网站，但我只想在当前页面阅读 15 分钟，不想在此耗费太多时间，我点开右上角的定时器插件，希望在此页面阅读停留 15 分钟后闹铃提示我。
+注意不是定时 15 分钟，而是在当前页面阅读满 15 分钟，不然为什么不直接使用闹钟呢？🤣
+
+这种场景下我们考虑下如何实现？首先是整个应用最核心的部分（其他部分下文再继续补充）：定时器，如果我们在 popup 中实现并维护定时器，一旦关闭 popup，保存在内存中的定时器也会随着程序的关闭而销毁，重新打开时又是一个初始化流程。
+
+这时就需要借助一个可以持续运行的后台脚本，和 Web 应用一样，插件也支持注册 Service Worker 后台脚本
 
 ```json:manifest.json
 {
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "sw.js"
   }
 }
 ```
 
-#### 调试
+在目录中新建 sw.js 并写入内容
 
-#### 通信
+```js:sw.js
+console.log("Service Worker Script")
+setInterval(function () {
+  console.log("log from service worker every 3s")
+}, 3000)
+```
+
+然后打开插件管理页面，点击刷新重载插件，就可以看到 “检查视图 Service Worker”
+
+![加载 sw.js](/static/images/mdx/extension/sw-load.png)
+
+点击会新窗口打开开发者工具，就可以看到 Service Worker 脚本的执行日志，`setInterval` 可以正常持续执行
+
+![查看 sw.js console 信息](/static/images/mdx/extension/sw-console.png)
+
+#### 如何通信
+
+然后下一个需要解决的问题就是如何通信？
+
+chrome 提供了两个 API 来实现各个页面之间的通信：`chrome.runtime.sendMessage` 和 `chrome.runtime.onMessage`
+
+```js:sw.js
+console.log("Service Worker Script")
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  console.log(request)
+  sendResponse({
+    msg: "hello from service worker"
+  })
+})
+```
+
+```js:popup.html
+<script>
+setTimeout(function () {
+  chrome.runtime.sendMessage({
+    from: "popup",
+    message: "hello from popup"
+  })
+}, 3000)
+</script>
+```
 
 ## 使用开发框架简化开发流程
 
