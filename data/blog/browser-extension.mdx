@@ -206,18 +206,272 @@ chrome.scripting.updateContentScripts([
 ])
 ```
 
-#### 插入交互
+#### 补充计时器例子
 
-回到上面计时器的例子，现在希望将提示信息直接插入当前浏览的页面中，打断阅读，更明显的进行提示。
+了解到内容脚本对所访问页面可以进行的控制，让我们回到上面计时器的例子，现在希望将提示信息直接插入当前浏览的页面中，进行更明显的提示。
 
 现在整个应用的执行流程是
 
 1. 在 popup 弹出窗口中开启闹钟，同步到 Service Worker 后台脚本中
-2. 在 Service Worker 中保存维护闹钟的状态
-3. 在内容脚本中取到闹钟的状态，同时收集有效时间做对比
-4. 当有效时间到达时，内容脚本直接在当前页面插入提示信息
+
+```js:popup.js
+const input = document.querySelector('#input-timer')
+const text = document.querySelector('#timer-rest')
+
+document.querySelector('#btn-set-timer').addEventListener('click', function () {
+  chrome.runtime.sendMessage({
+    type: 'set-timer',
+    payload: +input.value * 60,
+  })
+})
+
+document.addEventListener('DOMContentLoaded', function () {
+  update()
+})
+
+async function update() {
+  const response = await chrome.runtime.sendMessage({ type: 'get-timer' })
+  text.textContent = +response
+  setTimeout(update, 1000)
+}
+```
+
+2. 在 Service Worker 中保存维护闹钟的状态，将定时器状态同时往 popup 和当前页面同步
+
+```js:sw.js
+const timers = new Map()
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.type === 'set-timer') {
+    getActiveTab().then((tab) => {
+      const host = new URL(tab.url).hostname
+      timers.set(host, request.payload)
+      chrome.tabs.sendMessage(tab.id, { type: 'setup' })
+    })
+  }
+  if (request.type === 'get-timer') {
+    getActiveTab().then((tab) => {
+      const host = new URL(tab.url).hostname
+      sendResponse(timers.get(host))
+    })
+  }
+  if (request.type === 'update-timer') {
+    getActiveTab().then((tab) => {
+      const host = new URL(tab.url).hostname
+      if (timers.has(host)) {
+        timers.set(host, request.payload)
+      }
+    })
+  }
+  return true
+})
+
+function getActiveTab() {
+  return new Promise((resolve) => {
+    chrome.tabs.query({ active: true }, (tabs) => {
+      resolve(tabs[0])
+    })
+  })
+}
+```
+
+3. 在内容脚本中取到闹钟的状态，同时收集有效时间做对比，当有效时间到达时，内容脚本直接在当前页面插入提示信息
+
+```js:content.js
+let counting = document.visibilityState === 'visible'
+let target = 0
+let reduce = 0
+let setupStamp
+let lastStamp
+
+function setup() {
+  reset()
+  setupStamp = Date.now()
+  lastStamp = setupStamp
+  chrome.runtime.sendMessage({ type: 'get-timer' }, (response) => {
+    target = +response * 1000 // seconds => milliseconds
+  })
+}
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === 'setup') {
+    setup()
+  }
+})
+
+document.addEventListener('visibilitychange', () => {
+  counting = document.visibilityState === 'visible'
+  if (document.visibilityState === 'visible') {
+    lastStamp = Date.now()
+  }
+})
+
+function flush() {
+  const now = Date.now()
+  reduce += now - lastStamp
+  lastStamp = now
+  chrome.runtime.sendMessage({
+    type: 'update-timer',
+    payload: Math.round((target - reduce) / 1000),
+  })
+}
+
+function check() {
+  if (reduce > target) {
+    const message = `你已在当前页面停留了 ${target / 1000} 秒，到达设定时间`
+    alert(message)
+    reset()
+  }
+}
+
+function reset() {
+  reduce = 0
+  target = 0
+  setupStamp = null
+  lastStamp = null
+}
+
+setInterval(() => {
+  if (setupStamp && counting) {
+    flush()
+    check()
+  }
+}, 1000)
+```
 
 （这里是有更好的流程设计，比如使用 `chrome.storage` API，仅做教程演示使用此流程）
+
+### 工程化
+
+但是上文的例子还只是简单的 `alert` 提示信息，非中断交互的提示是更好的，以及为了追求更好的交互体验，可能需要引入 UI 框架和组件库来帮助构建插件应用，因此工程化十分必要。
+
+我们仅需要提供一个插件的目录给到浏览器加载，因此我们工程化的目标就是将代码和各种预设资源构建到插件目录即可。
+
+比如有 popup 窗口的样板代码，引入了 React 帮助构建交互
+
+```tsx:src/popup/index.tsx
+import * as React from 'react'
+import * as ReactDom from 'react-dom/client'
+import App from './App'
+import './index.css'
+
+ReactDom.createRoot(document.querySelector('#extension-popup')).render(<App />)
+```
+
+先加上基础的 webpack 配置
+
+```js:webpack.config.js
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const mode = process.env.NODE_ENV
+const isDev = mode === 'development'
+const devDirectory = 'dist-dev'
+
+module.exports = {
+  mode,
+  entry: {
+    popup: './src/popup/index.tsx',
+    // 暂时仅有单入口，这样写预留多入口
+  },
+  output: {
+    path: path.resolve(__dirname, isDev ? devDirectory : 'build'), // dev 和 build 区分目录
+    clean: true,
+    filename: '[name].js',
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [{ loader: 'ts-loader' }],
+      },
+      { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
+    ],
+  },
+  plugins: [
+    // 组装成 popup.html
+    new HtmlWebpackPlugin({
+      filename: 'popup.html',
+      template: './src/popup/template.html',
+      chunks: ['popup'],
+    }),
+  ],
+}
+```
+
+最重要的 manifest.json 文件还没有包括到最终目录中，新增 webpack plugin `npm i copy-webpack-plugin`，将 manifest.json 和其他静态资源放在 assets 目录下，然后复制进最终插件目录中即可
+
+```js:webpack.config.js
+const CopyPlugin = require('copy-webpack-plugin')
+
+module.exports = {
+  // ...
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [{ from: './assets', to: '.' }],
+    }),
+  ],
+}
+```
+
+然后补充下 webpack 开发服务器，支持热更新代码，安装 `npm i webpack-dev-server`，然后新增配置
+
+```js:webpack.config.js
+module.exports = {
+  // ...
+  devServer: {
+    hot: true,
+    static: [{ directory: path.resolve(__dirname, devDirectory) }],
+    devMiddleware: {
+      writeToDisk: (filePath) => {
+        // 热更新文件同样写入插件目录
+        return !/\.hot-update\.(js|json)/.test(filePath)
+      },
+    },
+  },
+}
+```
+
+至此，单独的 popup 应用开发流程就完成了，想新增插件的其他页面，流程也很简单，比如我想接管浏览器新增 Tab
+
+1. manifest.json 中新增页面配置
+
+```js:manifest.json
+{
+  // ...
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+}
+```
+
+2. 新增代码入口 `src/newtab/index.tsx` `src/newtab/template.html`
+3. 新增 webpack 配置
+
+```js:webpack.config.js
+module.exports = {
+  // ...
+  entry: {
+    // ...
+    newtab: './src/newtab/index.tsx',
+  },
+  plugins: [
+    // ...
+    new HtmlWebpackPlugin({
+      template: './src/newtab/template.html',
+      filename: 'newtab.html',
+      chunks: ['newtab'],
+    }),
+  ],
+}
+```
+
+其他 options 页面等同理
 
 ## 案例分享
 
