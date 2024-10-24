@@ -1,7 +1,7 @@
 ---
 title: 了解和开发一个浏览器插件
 date: '2024-10-21'
-tags: ['browser', 'chrome', 'extension']
+tags: ['browser', 'chrome', 'extension', 'webpack']
 draft: false
 summary: 认识什么是浏览器插件以及如何开发一个浏览器插件，实现各种功能...
 ---
@@ -315,7 +315,6 @@ function flush() {
     payload: Math.round((target - reduce) / 1000),
   })
 }
-
 function check() {
   if (reduce > target) {
     const message = `你已在当前页面停留了 ${target / 1000} 秒，到达设定时间`
@@ -323,20 +322,23 @@ function check() {
     reset()
   }
 }
-
 function reset() {
   reduce = 0
   target = 0
   setupStamp = null
   lastStamp = null
 }
+function start() {
+  const id = setInterval(() => {
+    if (setupStamp && counting) {
+      flush()
+      check()
+    }
+  }, 1000)
+  return () => clearInterval(id)
+}
 
-setInterval(() => {
-  if (setupStamp && counting) {
-    flush()
-    check()
-  }
-}, 1000)
+start()
 ```
 
 （这里是有更好的流程设计，比如使用 `chrome.storage` API，仅做教程演示使用此流程）
@@ -357,6 +359,8 @@ import './index.css'
 
 ReactDom.createRoot(document.querySelector('#extension-popup')).render(<App />)
 ```
+
+#### webpack
 
 先加上基础的 webpack 配置
 
@@ -471,7 +475,129 @@ module.exports = {
 }
 ```
 
-其他 options 页面等同理
+其他 options 等页面同理
+
+#### 再次补充计时器例子
+
+首先 webpack 中新增 entry
+
+```js:webpack.config.js
+module.exports = {
+  entry: {
+    content: './src/content/index.tsx',
+  },
+}
+```
+
+还是用上面的计时器应用作为例子，这里想将定时结束后的 `alert` 提示改成更友好的在页面中弹出非中断的提示信息
+
+在 Content Script 使用纯 javascript 编程的方式插入 react 构建的交互
+
+```js:src/content/index.tsx
+import * as React from 'react'
+import { createRoot } from 'react-dom/client'
+import Message from './Message'
+
+function getRoot() {
+  const id = 'extension-timer-message-root'
+  if (document.getElementById(id)) {
+    return document.getElementById(id)
+  }
+  const root = document.createElement('div')
+  root.id = id
+  document.body.appendChild(root)
+  return root
+}
+
+createRoot(getRoot()).render(<Message />)
+```
+
+但是还漏了 CSS，所以还需要用相同方法插入样式，但需要将 css 转成纯文本作为 `<style>` 标签的内容插入，因此 `npm i raw-loader -D` 然后使用 webpack 的 inline loader 加载 css 文件
+
+```js:src/content/index.tsx
+// ...
+import cssText from '!!raw-loader!./style.css'
+
+const style = document.createElement('style')
+style.textContent = cssText
+document.head.appendChild(style)
+```
+
+另外 `!!raw-loader!./style.css` 可能会报错，因为 ts 并不认识 `!!raw-loader`，所以需要补充下这种模块声明
+
+新增 `typings.d.ts` （随意目录下，只要 tsconfig.json 配置的 `include` 字段包含进去即可）
+
+```ts:typings.d.ts
+declare module '!!raw-loader!*' {
+  const content: string
+  export default content
+}
+```
+
+最后补充下 Message 组件和提供 api 用以替换 `alert`
+
+```js:src/content/store.ts
+import { create } from 'zustand'
+
+interface Message {
+  text: string
+  duration: number
+  id: number
+}
+interface Store {
+  messages: Message[]
+  push: (message: Omit<Message, 'id'>) => void
+}
+
+let seed = 0
+export const useStore = create<Store>((set) => ({
+  messages: [],
+  push: (message) => {
+    seed++
+    const newMessage = { ...message, id: seed }
+    set((state) => ({
+      messages: [...state.messages, newMessage],
+    }))
+    setTimeout(() => {
+      set((state) => ({
+        messages: state.messages.filter((msg) => msg.id !== newMessage.id),
+      }))
+    }, message.duration)
+  },
+}))
+
+export function showMessage(text: string, duration: number) {
+  const { push } = useStore.getState()
+  push({ text, duration })
+}
+```
+
+```js:src/content/Message.tsx
+import * as React from 'react'
+import { useStore } from './store'
+import start from './start'
+
+export default function Message() {
+  const { messages } = useStore()
+  React.useEffect(() => {
+    const un = start()
+    return un
+  }, [])
+  return (
+    <div className="timer-container">
+      {messages.map((message) => (
+        <div key={message.id} className="message-item">{message.text}</div>
+      ))}
+    </div>
+  )
+}
+```
+
+这里的 start 即上文例子中 content.js 中的 `start` 函数，最后找个页面测试下效果
+
+![](/static/images/mdx/extension/timer-tip.png)
+
+以上 demo 代码见 [github](https://github.com/stillsailing/extension-examples)
 
 ## 案例分享
 
