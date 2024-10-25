@@ -46,7 +46,7 @@ summary: 认识什么是浏览器插件以及如何开发一个浏览器插件�
 }
 ```
 
-### popup 弹出窗口
+### Popup 弹出窗口
 
 在 manifest.json 新增 action 配置，并在插件目录中提供 popup.html，就是一个简单常规的 HTML 页面
 
@@ -667,11 +667,47 @@ chrome.omnibox.onInputEntered.addListener(function (text) {
 
 ### Context Menu 右键菜单
 
+但还有一个场景，比如在阅读一篇技术博客时，提到了一个 Web API，我想要选中然后右键菜单直接在 MDN 中搜索
+
+还好，扩展程序同样支持扩展 Context Menu 右键菜单，首先在 manifest 配置清单中新增字段
+
 ```json:manifest.json
 {
   "permissions": ["contextMenus"],
 }
 ```
+
+然后在 Service Worker 中应用安装后（更多生命周期见[文档](https://developer.chrome.com/docs/extensions/develop/concepts/service-workers/lifecycle)）调用 `chrome.contextMenus.create` 插入菜单，指定有文本选中时才启用，然后监听菜单点击 `chrome.contextMenus.onClicked`，取到选中文本，并在当前网页右侧插入 tab 打开 MDN 搜索结果页面
+
+```js:service_worker.js
+chrome.runtime.onInstalled.addListener(async () => {
+  chrome.contextMenus.create({
+    id: 'search-in-mdn',
+    title: 'Search in MDN"',
+    type: 'normal',
+    contexts: ['selection'],
+  })
+})
+
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
+  const selection = info.selectionText
+  const newTabIndex = tab.index + 1
+  const url = `https://developer.mozilla.org/zh-CN/search?q=${selection}`
+  chrome.tabs.create({ url, index: newTabIndex })
+})
+```
+
+找个页面测试一下，选中文本后右键点击 “Seach in MDN” 点击即跳转到新页面，这比最先的流程要方便的太多了
+
+![Search in MDN](/static/images/mdx/extension/menu-select.png)
+
+### 安全问题
+
+## 使用框架简化开发流程
+
+- [plasmo](https://www.plasmo.com/)
+
+- [wxt](https://wxt.dev/)
 
 ## 案例分享
 
@@ -697,13 +733,3 @@ chrome.action.setIcon({
 
 1. 创建 Content Script 插入交互
 2. 由于同源策略，所有请求由插件的 Service Worker 代理
-
-## 使用开发框架简化开发流程
-
-### plasmo
-
-https://www.plasmo.com/
-
-### wxt
-
-https://wxt.dev/
