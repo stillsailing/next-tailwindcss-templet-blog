@@ -476,7 +476,7 @@ module.exports = {
 }
 ```
 
-其他 options 等页面同理
+其他 options 等页面同理，以及其他构建工具比如 vite 也是相同思路
 
 #### 再次补充计时器例子
 
@@ -701,7 +701,21 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 ![Search in MDN](/static/images/mdx/extension/menu-select.png)
 
+以上例子已打包成扩展程序发布到 [github]()，欢迎试用体验
+
 ### 安全问题
+
+#### CSP 内容安全策略
+
+默认情况下，插件只能从自己目录加载资源，相当于有默认配置
+
+```json:manifest.json
+{
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  }
+}
+```
 
 ## 使用框架简化开发流程
 
