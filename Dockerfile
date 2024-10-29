@@ -7,6 +7,7 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 COPY . .
+RUN npm i -g pnpm
 RUN pnpm i && pnpm build
 
 # Production image, copy all the files and run next
