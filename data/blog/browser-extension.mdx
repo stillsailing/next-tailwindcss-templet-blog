@@ -705,17 +705,20 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 ### 安全问题
 
-#### CSP 内容安全策略
+1. 权限最小化原则：应只请求完成其功能所需的最小权限，避免请求不必要的权限。
 
-默认情况下，插件只能从自己目录加载资源，相当于有默认配置
+2. CSP 内容安全策略：默认情况下，插件只能从自己目录加载资源，相当于有默认配置
 
-```json:manifest.json
-{
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
-  }
-}
-```
+   ```json:manifest.json
+   {
+     "content_security_policy": {
+       "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+     }
+   }
+   ```
+
+3. 安装前仔细查看其请求的权限列表，评估是否合理
+4. 谨慎授权，插件请求授权时评估其合理性
 
 ## 使用框架简化开发流程
 

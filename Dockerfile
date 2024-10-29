@@ -7,7 +7,7 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 COPY . .
-RUN yarn install && yarn run build
+RUN pnpm i && pnpm build
 
 # Production image, copy all the files and run next
 FROM base AS runner
