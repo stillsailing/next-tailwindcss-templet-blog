@@ -1,6 +1,7 @@
 import type { LinkProps } from 'next/link'
 import { AnchorHTMLAttributes } from 'react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
+import { correctViewTransitionName } from 'app/util'
 
 const CustomLink = ({
   href,
@@ -13,7 +14,16 @@ const CustomLink = ({
 
   if (isInternalLink) {
     return (
-      <Link className="break-words" href={href} {...rest}>
+      <Link
+        className="break-words"
+        href={href}
+        style={{
+          viewTransitionName: viewTransitionName
+            ? correctViewTransitionName(viewTransitionName)
+            : undefined,
+        }}
+        {...rest}
+      >
         {children}
       </Link>
     )

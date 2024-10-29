@@ -703,6 +703,10 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 以上例子已打包成扩展程序发布到 [github]()，欢迎试用体验
 
+### More
+
+扩展程序可以扩展的更多功能：Devtools 开发者工具、Sidepanel 侧边栏等不再一一说明，可以参见下文更多例子查看
+
 ### 安全问题
 
 1. 权限最小化原则：应只请求完成其功能所需的最小权限，避免请求不必要的权限。
@@ -719,12 +723,6 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 3. 安装前仔细查看其请求的权限列表，评估是否合理
 4. 谨慎授权，插件请求授权时评估其合理性
-
-## 使用框架简化开发流程
-
-- [plasmo](https://www.plasmo.com/)
-
-- [wxt](https://wxt.dev/)
 
 ## 案例分享
 
@@ -750,3 +748,9 @@ chrome.action.setIcon({
 
 1. 创建 Content Script 插入交互
 2. 由于同源策略，所有请求由插件的 Service Worker 代理
+
+## 使用框架简化开发流程
+
+- [plasmo](https://www.plasmo.com/)
+
+- [wxt](https://wxt.dev/)

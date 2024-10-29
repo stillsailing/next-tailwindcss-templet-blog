@@ -7,6 +7,7 @@ import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 import Compatibility from './Compatibility'
+import ImageGallery from './ImageGallery'
 
 export const components: MDXComponents = {
   Image,
@@ -17,4 +18,5 @@ export const components: MDXComponents = {
   table: TableWrapper,
   BlogNewsletterForm,
   Compatibility,
+  ImageGallery,
 }

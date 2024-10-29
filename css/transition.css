@@ -1,5 +1,10 @@
-@view-transition {
-  navigation: auto;
+:root {
+  --view-transition-duration: 0.3s;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--view-transition-duration);
 }
 
 ::view-transition-old(*),
@@ -7,7 +12,6 @@
   height: 100%;
   width: auto;
 }
-
 ::view-transition-group(*) {
   overflow: hidden;
 }
