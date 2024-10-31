@@ -725,7 +725,7 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 #### Sandbox 沙箱机制
 
-如果必须使用的话，并不是没有办法，需要创建 sandbox 然后通过 iframe 加载并通信，但在 sandbox 中被禁止调用诸如 `chrome.*` 的任何浏览器 API
+如果必须使用的话，并不是没有办法，还是举例说明，比如有一个弹出窗口中的计算器，输入计算公式，点击计算即可得到结果
 
 ```json:manifest.json
 {
@@ -735,7 +735,25 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 }
 ```
 
-还是举例说明，比如想在插件中代理请求 mock 代替接口返回，但是需要支持脚本动态 mock 数据
+提供 sandbox.html 然后通过 iframe 加载并通信（在 sandbox 中被禁止调用诸如 `chrome.*` 的任何浏览器扩展程序 API）
+
+```html:popup.html
+<body>
+  <input id="formula" />
+  <button id="calc">Calc</button>
+  <div id="result"></div>
+  <iframe id="sandbox" src="sandbox.html" style="display: none"></iframe>
+</body>
+```
+
+然后在 sandbox.html 中通过 `message` 事件和 `postMessage` 与 popup.html 进行通信，使用 `eval` 计算出结果并返回
+
+```js:sandbox.html
+window.addEventListener("message", async function (event) {
+  const source = event.source as { window: WindowProxy }
+  source.window.postMessage(eval(event.data), event.origin)
+})
+```
 
 #### 开发和使用注意
 
@@ -766,6 +784,10 @@ chrome.action.setIcon({
 
 1. 创建 Content Script 插入交互
 2. 由于同源策略，所有请求由插件的 Service Worker 代理
+
+### Wappalyzer
+
+分析页面的 HTML、CSS、JS 代码，然后通过正则匹配，提取出页面的框架信息
 
 ## 使用框架简化开发流程
 
