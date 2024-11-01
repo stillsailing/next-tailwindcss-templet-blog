@@ -1,18 +1,20 @@
 import 'css/post-layout.css'
-import { ReactNode } from 'react'
+import Bleed from 'pliny/ui/Bleed'
+import TOCInline from 'pliny/ui/TOCInline'
 import { CoreContent } from 'pliny/utils/contentlayer'
+import { ReactNode } from 'react'
+
 import type { Blog, Author } from 'contentlayer/generated'
+
+import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import ScrollProcess from '@/components/ScrollProcess'
+import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import SectionContainer from '@/components/SectionContainer'
 import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
-import TOCInline from 'pliny/ui/TOCInline'
-import Bleed from 'pliny/ui/Bleed'
-import ScrollProcess from '@/components/ScrollProcess'
 import Views from '@/components/UmamiViews'
-import Image from '@/components/Image'
+import siteMetadata from '@/data/siteMetadata'
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',

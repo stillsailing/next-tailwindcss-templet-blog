@@ -1,5 +1,6 @@
-import siteMetadata from '@/data/siteMetadata'
 import { NextRequest, NextResponse } from 'next/server'
+
+import siteMetadata from '@/data/siteMetadata'
 
 async function handler(req: NextRequest) {
   const searchs = new URL(req.url).searchParams

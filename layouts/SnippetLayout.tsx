@@ -1,13 +1,15 @@
 import 'css/post-layout.css'
-import { ReactNode } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
+import { ReactNode } from 'react'
+
 import type { Author, Snippet } from 'contentlayer/generated'
+
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',

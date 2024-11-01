@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
+
 import type { Author } from 'contentlayer/generated'
+
 import Image from '@/components/Image'
 
 interface Props {

@@ -1,7 +1,9 @@
-import MasonryLayout from '@/layouts/MasonryLayout'
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
-import { allSnippets } from 'contentlayer/generated'
 import { genPageMetadata } from 'app/seo'
+import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
+
+import { allSnippets } from 'contentlayer/generated'
+
+import MasonryLayout from '@/layouts/MasonryLayout'
 
 export const metadata = genPageMetadata({
   title: 'Snippet',
