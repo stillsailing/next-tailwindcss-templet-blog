@@ -6,7 +6,7 @@ draft: false
 summary: 认识什么是浏览器插件以及如何开发一个浏览器插件，实现各种功能...
 ---
 
-如果您还未使用过浏览器插件，可以打开 [Chrome 浏览器插件商店](https://chromewebstore.google.com/category/extensions) 看看
+如果您还未使用过浏览器插件，可以打开 [Chrome 浏览器插件商店](https://chromewebstore.google.com) 看看
 
 ![Chrome 浏览器插件商店](/static/images/mdx/extension/store.png)
 
@@ -758,7 +758,7 @@ window.addEventListener("message", async function (event) {
 #### 开发和使用注意
 
 1. 权限最小化原则：应只请求完成其功能所需的最小权限，避免请求不必要的权限。
-2. 谨慎授权：安装前仔细查看其请求的权限列表，评估其合理性
+2. 谨慎授权：安装前仔细查看其请求的权限列表，评估其合理性。如果一个收藏夹管理插件请求访问 webRequest 等权限，这显然不合理，应该拒绝安装。
 
 ## 案例分享
 
