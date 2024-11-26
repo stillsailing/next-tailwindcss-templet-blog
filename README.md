@@ -1,13 +1,4 @@
-## [chenyh.site](https://chenyh.site)
-
 template from [tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog)
-
-## Todo
-
-- [x] better toc
-- [X] font
-- [x] logo
-- [ ] about
 
 ## contentlayer2
 
@@ -24,3 +15,4 @@ summary: 'A Good Summary'
 Happy Writing! quote 1[^1]
 
 [^1]: quote 1
+```
