@@ -1,5 +1,5 @@
-import type { PlinyConfig, Comm } from 'pliny/config'
 import type { CommentsConfig } from 'pliny/comments'
+import type { PlinyConfig, Comm } from 'pliny/config'
 
 interface WalineConfig {
   provider: 'waline'

@@ -24,20 +24,20 @@ Rx.fromEvent(document, 'click').subscribe(() => console.log('Clicked!'))
 上面的 fromEvent 是一个从指定对象获取指定事件并转化成流的工具方法，将用户在 document 的点击事件流动到事件序列中以订阅处。下面说一下核心用法：
 
 ```js
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs'
 
 const observable = new Observable((subscriber) => {
-  subscriber.next(1);
-  subscriber.next(2);
+  subscriber.next(1)
+  subscriber.next(2)
   setTimeout(() => {
-    subscriber.next(3);
-    subscriber.complete();
-  }, 1000);
-});
+    subscriber.next(3)
+    subscriber.complete()
+  }, 1000)
+})
 
-console.log('just before subscribe');
-observable.subscribe((value) => console.log(value));
-console.log('just after subscribe');
+console.log('just before subscribe')
+observable.subscribe((value) => console.log(value))
+console.log('just after subscribe')
 
 // just before subscribe
 // 1
@@ -61,9 +61,9 @@ Redux 强调的是单向不可变数据流，所以状态的改变需要 dispatc
 function createMiddleware() {
   const action$ = new Subject()
   let subscription
-  const middleware = store => next => action => {
+  const middleware = (store) => (next) => (action) => {
     next(action)
-    actionSubject$.next(action) // flow to streamer
+    actionSubject$.next(action) // flow to stream
   }
   middleware.run = (streamer) => {
     if (subscription) {
@@ -201,8 +201,9 @@ const runtime = Runtime.create(AppDuck)
 然后你可以仅测试你的纯逻辑部分确认没有问题
 
 ```js
-import { expect, test, describe } from 'vitest'
 import { Runtime } from 'observable-duck'
+import { expect, test, describe } from 'vitest'
+
 import AppDuck from './AppDuck'
 
 describe('AppDuck.test', () => {
@@ -391,8 +392,9 @@ class SubDuck extends Base {
 ```js
 // One.ts
 import { Runtime } from 'observable-duck'
-import Template from './Template'
+
 import Duck from './Duck'
+import Template from './Template'
 
 export const runtime = Runtime.create(Duck) // 单独将 runtime 也导出
 export default runtime.connect(Template) // 将 runtime 与 react 组件连接后默认导出
