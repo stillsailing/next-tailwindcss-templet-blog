@@ -4,6 +4,7 @@ import { formatDate } from 'pliny/utils/formatDate'
 
 import { Blog } from 'contentlayer/generated'
 
+import Category from '@/components/Category'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
@@ -14,19 +15,19 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="bg-gradient-to-r from-primary-400 to-red-500 bg-clip-text pb-8  font-bold text-transparent">
-          <h2 className="text-3xl">Welcome!</h2>
-          <h3 className="text-2xl">Keep The Passion For Creating.</h3>
+        <div className="bg-gradient-to-r from-primary-400 to-red-500 bg-clip-text space-y-2 pt-6 pb-12 font-bold text-transparent ">
+          <h2 className="text-4xl">Welcome!</h2>
+          <h3 className="text-3xl">Keep The Passion For Creating.</h3>
         </div>
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-10 md:text-3xl md:leading-12">
-            最近更新
+            Latest
           </h1>
         </div>
         <ul className="divide-y divide-gray-200 py-2 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags } = post
+            const { category, slug, date, title, summary, tags } = post
             return (
               <li key={slug} className="py-4">
                 <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
@@ -37,15 +38,18 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                     </dd>
                   </dl>
                   <div className="space-y-2 xl:col-span-3">
-                    <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                      <Link
-                        href={`/blog/${slug}`}
-                        className="text-gray-900 transition hover:text-primary-500 dark:text-gray-100"
-                        viewTransitionName={title}
-                      >
-                        {title}
-                      </Link>
-                    </h2>
+                    <div className="flex items-center gap-2">
+                      {category && <Category>{category}</Category>}
+                      <h2 className="text-2xl font-bold leading-8 tracking-tight">
+                        <Link
+                          href={`/blog/${slug}`}
+                          className="text-gray-900 transition hover:text-primary-500 dark:text-gray-100"
+                          viewTransitionName={title}
+                        >
+                          {title}
+                        </Link>
+                      </h2>
+                    </div>
                     <div className="flex flex-wrap">
                       {tags.map((tag) => (
                         <Tag key={tag} text={tag} />

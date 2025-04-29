@@ -61,7 +61,7 @@ self.addEventListener('activate', (event) => {
 在执行导航和功能事件后，浏览器会自动检查更新，也可以手动触发更新：
 
 ```js
-navigator.serviceWorker.register('/service_worker.js').then(reg => {
+navigator.serviceWorker.register('/service_worker.js').then((reg) => {
   // sometime later…
   reg.update()
 })
@@ -145,7 +145,7 @@ self.addEventListener('install', (event) => {
 })
 ```
 
-组合不同的缓存策略可以为应用实现丝滑的在线和离线使用支持，比如这个博客中的静态资源采用缓存优先，页面文档等采用网络优先，可以关闭网络后尝试刷新，页面仍可以正常加载查看
+组合不同的缓存策略可以为应用实现丝滑的在线和离线使用支持
 
 ## Workerbox
 

@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 
-import { allBlogs, allSnippets } from 'contentlayer/generated'
+import { allBlogs } from 'contentlayer/generated'
 
 import siteMetadata from '@/data/siteMetadata'
 
@@ -14,17 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: post.lastmod || post.date,
     }))
 
-  const snippetRoutes = allSnippets
-    .filter((post) => !post.draft)
-    .map((post) => ({
-      url: `${siteUrl}/${post.path}`,
-      lastModified: post.lastmod || post.date,
-    }))
-
   const routes = ['', 'blog', 'projects', 'tags', 'snippets'].map((route) => ({
     url: `${siteUrl}/${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }))
 
-  return [...routes, ...blogRoutes, ...snippetRoutes]
+  return [...routes, ...blogRoutes]
 }

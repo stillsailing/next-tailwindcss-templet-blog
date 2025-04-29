@@ -1,4 +1,4 @@
-const withWorkerbox = require('next-with-workbox')
+// const withWorkerbox = require('next-with-workbox')
 const { withContentlayer } = require('next-contentlayer2')
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -64,7 +64,7 @@ const unoptimized = process.env.UNOPTIMIZED ? true : undefined
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
 module.exports = () => {
-  const plugins = [withContentlayer, withBundleAnalyzer, withWorkerbox]
+  const plugins = [withContentlayer, withBundleAnalyzer]
   return plugins.reduce((acc, next) => next(acc), {
     output,
     basePath,
@@ -108,14 +108,14 @@ module.exports = () => {
         },
       ]
     },
-    workbox: {
-      swSrc: './scripts/service_worker.ts',
-      dest: 'public',
-      swDest: '/service_worker.js',
-      force: true,
-      exclude: [/\.map$/, /_next\/static\/.*/], // 更新路径
-      include: [/_next\/app-build-manifest\.json/],
-    },
+    // workbox: {
+    //   swSrc: './scripts/service_worker.ts',
+    //   dest: 'public',
+    //   swDest: '/service_worker.js',
+    //   force: true,
+    //   exclude: [/\.map$/, /_next\/static\/.*/], // 更新路径
+    //   include: [/_next\/app-build-manifest\.json/],
+    // },
     webpack: (config, options) => {
       config.module.rules.push({
         test: /\.svg$/,
