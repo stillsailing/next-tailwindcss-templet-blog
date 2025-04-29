@@ -8,7 +8,10 @@ import ThemeSwitch from './ThemeSwitch'
 
 const Header = () => {
   return (
-    <header className="flex items-baseline justify-between py-8">
+    <header
+      className="flex items-baseline justify-between py-8"
+      style={{ viewTransitionName: 'app-header' }}
+    >
       <div>
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">

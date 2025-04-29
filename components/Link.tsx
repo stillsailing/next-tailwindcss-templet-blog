@@ -1,7 +1,7 @@
+import { correctViewTransitionName } from 'app/util'
+import { Link } from 'next-view-transitions'
 import type { LinkProps } from 'next/link'
 import { AnchorHTMLAttributes } from 'react'
-import { Link } from 'next-view-transitions'
-import { correctViewTransitionName } from 'app/util'
 
 const CustomLink = ({
   href,

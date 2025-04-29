@@ -1,5 +1,5 @@
 /**
- * https://caniuse.bitsofco.de/embed/index.html?feat=feature
+ * https://caniuse.bitsofco.de/embed/index.html
  * @param param
  * @returns
  */

@@ -1,13 +1,14 @@
-import TOCInline from 'pliny/ui/TOCInline'
-import Pre from 'pliny/ui/Pre'
-import BlogNewsletterForm from 'pliny/ui/BlogNewsletterForm'
-import dynamic from 'next/dynamic'
 import type { MDXComponents } from 'mdx/types'
+import dynamic from 'next/dynamic'
+import BlogNewsletterForm from 'pliny/ui/BlogNewsletterForm'
+import Pre from 'pliny/ui/Pre'
+import TOCInline from 'pliny/ui/TOCInline'
+
+import Compatibility from './Compatibility'
 import Image from './Image'
+import ImageGallery from './ImageGallery'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
-import Compatibility from './Compatibility'
-import ImageGallery from './ImageGallery'
 
 export const components: MDXComponents = {
   Image,

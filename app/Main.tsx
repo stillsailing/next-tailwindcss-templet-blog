@@ -39,7 +39,6 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                   </dl>
                   <div className="space-y-2 xl:col-span-3">
                     <div className="flex items-center gap-2">
-                      {category && <Category>{category}</Category>}
                       <h2 className="text-2xl font-bold leading-8 tracking-tight">
                         <Link
                           href={`/blog/${slug}`}
@@ -49,6 +48,7 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                           {title}
                         </Link>
                       </h2>
+                      {category && <Category>{category}</Category>}
                     </div>
                     <div className="flex flex-wrap">
                       {tags.map((tag) => (

@@ -1,5 +1,9 @@
 :root {
-  --view-transition-duration: 0.3s;
+  --view-transition-duration: 0.2s;
+}
+
+::view-transition-old(root) {
+  display: none;
 }
 
 ::view-transition-old(root),
