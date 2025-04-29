@@ -50,6 +50,24 @@ View Transitions API 提供了一种机制，可以在更新 DOM 内容的同时
 }
 ```
 
+### util
+
+```js
+function startViewTransition(update) {
+  if (typeof document.startViewTransition !== 'function') {
+    // 浏览器不支持
+    update()
+    return
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // 用户偏好减少动画
+    update()
+    return
+  }
+  document.startViewTransition(() => update())
+}
+```
+
 ## 跟 UI 框架集成
 
 跟 UI 框架集成的关键在于**如何知道框架更新 dom 后的时机**（不管是同步还是异步），才能在 `startViewTransition` 的回调结束前确保 dom 已经更新完成，然后浏览器才可以截取新帧进行过渡
@@ -62,18 +80,19 @@ react 提供了 [`flushSync`](https://zh-hans.react.dev/reference/react-dom/flus
 
 ```js
 export default function Count() {
-  const [count, setCount] = useState(0);
-  const plus = () => document.startViewTransition(() => {
-    flushSync(() => {
-      setCount(count + 1);
+  const [count, setCount] = useState(0)
+  const plus = () =>
+    document.startViewTransition(() => {
+      flushSync(() => {
+        setCount(count + 1)
+      })
     })
-  })
   return (
     <div>
       <div className="count">{count}</div>
       <button onClick={plus}>Plus</button>
     </div>
-  );
+  )
 }
 ```
 
@@ -109,7 +128,7 @@ const plus = useViewTransition(() => {
 **在 react-router 中使用**
 
 由于 react-router v6 推荐使用 [Data APIs](https://reactrouter.com/en/main/routers/picking-a-router)，
-我们无法将 `useLayoutEffect` 的逻辑提升，因此直接支持了 [`unstable_viewtransition`](https://reactrouter.com/en/main/components/link#unstable_viewtransition) 
+我们无法将 `useLayoutEffect` 的逻辑提升，因此直接支持了 [`unstable_viewtransition`](https://reactrouter.com/en/main/components/link#unstable_viewtransition)
 在路由跳转时默认启用 `document.startViewTransition` 同时提供了 [`unstable_useViewTransitionState()`](https://reactrouter.com/en/main/hooks//use-view-transition-state) hook 来判断过渡是否正在被启用
 
 或者直接使用 `flushSync` 也没啥问题
@@ -124,8 +143,8 @@ export default function useNavigateWithTransition() {
     document.startViewTransition(() => {
       flushSync(() => {
         navigate(to)
-      });
-    });
+      })
+    })
   }
 }
 ```
@@ -160,14 +179,17 @@ chrome 126 版本正式支持了 MPA 跨文档视图转换，试用本例子前�
 启用 MPA 过渡要求仅适用于**同源页面**，MPA 过渡使用旧页面跳转前作为旧帧，跳转后为新帧
 
 1. 这种情况下没法调用 `startViewTransition` 因此需要在 css 中新增 `@view-transition` at-rule 标记
-  ```css
-  @view-transition {
-    navigation: auto;
-  }
-  ```
+
+```css
+@view-transition {
+  navigation: auto;
+}
+```
+
 2. pageswap 和 pagereveal 事件
-  - pageswap 事件在网页最后一帧呈现之前触发。可以在此时机做最后的修改。
-  - pagereveal 事件会在网页上完成初始化首次呈现机会之前触发。可以在截取新帧之前自定义新页面。
+
+- pageswap 事件在网页最后一帧呈现之前触发。可以在此时机做最后的修改。
+- pagereveal 事件会在网页上完成初始化首次呈现机会之前触发。可以在截取新帧之前自定义新页面。
 
 与单页面过渡一样，浏览器自动选取两个页面中相同 `view-transition-name` 的元素，以 group 为单位进行前后的补间动画过渡
 
