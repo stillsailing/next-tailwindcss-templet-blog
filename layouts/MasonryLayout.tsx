@@ -1,7 +1,7 @@
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { formatDate } from 'pliny/utils/formatDate'
 
-import type { Blog, Snippet } from 'contentlayer/generated'
+import type { Blog } from 'contentlayer/generated'
 
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
@@ -12,9 +12,9 @@ interface PaginationProps {
   currentPage: number
 }
 interface ListLayoutProps {
-  posts: CoreContent<Blog | Snippet>[]
+  posts: CoreContent<Blog>[]
   title: string
-  initialDisplayPosts?: CoreContent<Blog | Snippet>[]
+  initialDisplayPosts?: CoreContent<Blog>[]
   pagination?: PaginationProps
 }
 
