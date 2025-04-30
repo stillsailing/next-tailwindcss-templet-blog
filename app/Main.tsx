@@ -9,7 +9,7 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 
-const MAX_DISPLAY = 4
+const MAX_DISPLAY = 5
 
 export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
   return (
