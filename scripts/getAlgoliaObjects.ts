@@ -1,5 +1,6 @@
-import siteMetadata from '../data/siteMetadata'
 import { CoreContent, MDXDocumentDate } from 'pliny/utils/contentlayer'
+
+import siteMetadata from '../data/siteMetadata'
 
 export function getAlgoliaObjects(blogs: CoreContent<MDXDocumentDate>[]) {
   return blogs.map((blog) => {
@@ -16,7 +17,7 @@ export function getAlgoliaObjects(blogs: CoreContent<MDXDocumentDate>[]) {
       url,
       title: blog.title,
       content: blog.summary,
-      author: 'chenyh.site@gmail.com',
+      author: siteMetadata.author,
       tags: blog.tags,
       date: blog.date,
       hierarchy: {

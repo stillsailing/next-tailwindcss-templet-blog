@@ -1,5 +1,6 @@
 {
-  "javascript": 9,
+  "javascript": 10,
+  "es6": 1,
   "rxjs": 2,
   "http": 1,
   "sse": 1,
