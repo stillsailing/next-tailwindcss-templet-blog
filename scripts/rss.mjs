@@ -6,7 +6,8 @@ import { escape } from 'pliny/utils/htmlEscaper.js'
 
 import { allBlogs } from '../.contentlayer/generated/index.mjs'
 
-import tagData from '../app/tag-data.json'
+// eslint-disable-next-line prettier/prettier
+import tagData from '../app/tag-data.json' assert { type: 'json' }
 import siteMetadata from '../data/siteMetadata.js'
 
 const generateRssItem = (config, post) => `
