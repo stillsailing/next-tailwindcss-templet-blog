@@ -8,6 +8,7 @@ import { ViewTransitions } from 'next-view-transitions'
 import dynamic from 'next/dynamic'
 import { Space_Grotesk, Ubuntu, Ubuntu_Mono, Bungee_Shade } from 'next/font/google'
 import LocalFont from 'next/font/local'
+import Script from 'next/script'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import 'pliny/search/algolia.css'
@@ -150,6 +151,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </SectionContainer>
           </ThemeProviders>
+          <Script
+            id="debug-message"
+            dangerouslySetInnerHTML={{
+              __html:
+                'window["__debug__"] = { umami: "https://eu.umami.is/websites/471bfa44-fec2-42cf-9890-aed2248ebba4" }',
+            }}
+          />
         </body>
       </html>
     </ViewTransitions>

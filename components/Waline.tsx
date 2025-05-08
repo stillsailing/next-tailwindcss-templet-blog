@@ -3,13 +3,14 @@
 /**
  * 评论组件
  */
-import { WalineConfig } from '@/data/data'
-import { useLayoutEffect } from 'react'
 import { init } from '@waline/client'
-import { usePathname } from 'next/navigation'
-import { useTheme } from 'next-themes'
 import '@waline/client/style'
+import { useTheme } from 'next-themes'
+import { usePathname } from 'next/navigation'
+import { useLayoutEffect } from 'react'
+
 import '@/css/waline.css'
+import { WalineConfig } from '@/data/data'
 
 const Waline = ({ server }: WalineConfig['walineConfig']) => {
   const path = usePathname()
@@ -23,7 +24,7 @@ const Waline = ({ server }: WalineConfig['walineConfig']) => {
       dark: resolvedTheme === 'dark',
     })
     return () => waline?.destroy()
-  }, [path, resolvedTheme])
+  }, [path, resolvedTheme, server])
 
   return <div id="waline" className="waline-container"></div>
 }

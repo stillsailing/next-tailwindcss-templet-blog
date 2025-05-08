@@ -1,5 +1,4 @@
 // https://simpleicons.org/
-
 import { SVGProps } from 'react'
 
 export function Facebook(svgProps: SVGProps<SVGSVGElement>) {

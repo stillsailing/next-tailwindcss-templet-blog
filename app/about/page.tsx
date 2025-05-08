@@ -1,9 +1,11 @@
-import { Author, allAuthors } from 'contentlayer/generated'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
-import AboutLayout from '@/layouts/AboutLayout'
-import { coreContent } from 'pliny/utils/contentlayer'
 import { genPageMetadata } from 'app/seo'
+import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { coreContent } from 'pliny/utils/contentlayer'
+
+import { Author, allAuthors } from 'contentlayer/generated'
+
 import Comments from '@/components/Comments'
+import AboutLayout from '@/layouts/AboutLayout'
 
 export const metadata = genPageMetadata({ title: 'About' })
 

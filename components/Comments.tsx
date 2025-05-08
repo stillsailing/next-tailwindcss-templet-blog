@@ -1,5 +1,7 @@
 import { Comments as CommentsComponent } from 'pliny/comments'
+
 import siteMetadata from '@/data/siteMetadata'
+
 import Waline from './Waline'
 
 export default function Comments({ slug }: { slug: string }) {
