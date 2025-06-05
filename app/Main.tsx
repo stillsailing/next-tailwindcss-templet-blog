@@ -38,7 +38,7 @@ export default function Home({ posts }: { posts: CoreContent<Blog>[] }) {
                     </dd>
                   </dl>
                   <div className="space-y-2 xl:col-span-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <h2 className="text-2xl font-bold leading-8 tracking-tight">
                         <Link
                           href={`/blog/${slug}`}
