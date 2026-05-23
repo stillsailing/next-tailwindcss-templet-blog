@@ -23,6 +23,13 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 }
 
+const formatPostDate = (dateString: string) =>
+  new Date(dateString)
+    .toLocaleDateString(siteMetadata.locale, postDateTemplate)
+    .replace(/(\d+)/g, ' $1 ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
 interface LayoutProps {
   content: CoreContent<Blog>
   authorDetails: CoreContent<Author>[]
@@ -59,9 +66,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
               <dl className="mt-2">
                 <dt className="sr-only">发布于</dt>
                 <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                  <time dateTime={date}>
-                    {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
-                  </time>
+                  <time dateTime={date}>{formatPostDate(date)}</time>
                 </dd>
               </dl>
             </div>
@@ -91,14 +96,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
               <dl className="flex items-center justify-end gap-4 p-2 text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
                 <Views path={`/${path}`} />
                 <div className="flex items-center justify-end">
-                  <dt className="">最后更新于</dt>
+                  <dt className="mr-1">最后更新于</dt>
                   <dd>
-                    <time dateTime={lastUpdateDate}>
-                      {new Date(lastUpdateDate).toLocaleDateString(
-                        siteMetadata.locale,
-                        postDateTemplate
-                      )}
-                    </time>
+                    <time dateTime={lastUpdateDate}>{formatPostDate(lastUpdateDate)}</time>
                   </dd>
                 </div>
               </dl>
